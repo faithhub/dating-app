@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       interests: {
         type: DataTypes.ARRAY(DataTypes.TEXT),
-        defaultValue: "",
+        defaultValue: null,
       },
       account_purpose: {
         type: DataTypes.ENUM,
