@@ -1,0 +1,25 @@
+{
+  "development": {
+    "username": "root",
+    "password": "root",
+    "database": "dating_app_2",
+    "host": "localhost",
+    "port": "8889",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "secret": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING, AND NOBODY CAN GUESS OF IT, BECAUSE IT IS MY SECRETE NOW@@@#$%^&*()(*&^%$#@!@#$%^&*TESDFVVBIEQWXSVGFNIUGERWFSSFERFERHTYJYTHNSDEWFEUYEGRWUYFBEHWWEJUH][P]PQWL;,A;S,LAKMAS"
+}
