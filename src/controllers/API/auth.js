@@ -41,10 +41,10 @@ async function login(req, res) {
     delete user.dataValues.password;
     return res.status(200).json({
       message: "User logged in successfully",
-      // user: data,
-      data: { ...user.dataValues, token },
+      data: { token },
     });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({
       message: "An error occur",
       error: error.message,
