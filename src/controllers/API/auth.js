@@ -67,6 +67,15 @@ async function register(req, res) {
     }
 
     // const password = await hashIt(req.body.password);
+    // const payload = {
+    //   ...req.body,
+    //   username: req.body.matric,
+    //   type: "student",
+    // };
+    // delete payload.matric;
+    // delete payload.confirmPassword;
+    // console.log(payload);
+    // const save = await User.create(payload);
     const createUser = await User.create({ phone, password });
 
     if (!createUser) {
