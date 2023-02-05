@@ -123,7 +123,7 @@ async function create(req, res) {
     console.log(error);
     return res.status(400).json({
       message: "An error occur when creating post",
-      error: error.message,
+      error: error,
     });
   }
 }
