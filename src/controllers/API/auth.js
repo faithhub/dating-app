@@ -28,24 +28,26 @@ async function login(req, res) {
       });
     }
 
-    // if (!user.validPassword(password)) {
-    //   return res.status(400).json({
-    //     message: "Invalid credentials",
-    //   });
-    // }
+    if (!user.validPassword(password)) {
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
+    }
 
-    // const token = jwt.sign({ sub: user.phone, id: user.id }, config.secret, {
-    //   expiresIn: "7d",
-    // });
+    const token = jwt.sign(
+      { sub: user.dataValues.phone, id: user.dataValues.id },
+      config.secret,
+      {
+        expiresIn: "7d",
+      }
+    );
 
-    // delete user.dataValues.password;
+    delete user.dataValues.password;
     return res.status(200).json({
       message: "User logged in successfully",
-      // data: { token },
-      user: user,
+      data: { ...user.dataValues, token },
     });
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       message: "An error occur",
       error: error.message,
