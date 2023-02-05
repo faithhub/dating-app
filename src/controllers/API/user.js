@@ -39,6 +39,7 @@ async function updateProfile(req, res) {
     const params = req.body;
 
     delete params.phone;
+    delete params.interests;
 
     const updateUser = await User.update(params, {
       where: {
@@ -61,7 +62,7 @@ async function updateProfile(req, res) {
       raw: true,
     });
 
-    // user.interests = JSON.parse(user.interests);
+    user.interests = JSON.parse(user.interests);
     return res.status(200).json({
       message: "Profile updated successfully",
       data: user,
