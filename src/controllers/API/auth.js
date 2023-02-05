@@ -39,11 +39,11 @@ async function login(req, res) {
       where: { phone },
     });
 
-    // const token = jwt.sign({ sub: user.phone, id: user.id }, config.secret, {
-    //   expiresIn: "7d",
-    // });
+    const token = jwt.sign({ sub: user.phone, id: user.id }, config.secret, {
+      expiresIn: "7d",
+    });
     delete user.password;
-    const data = { ...user, new: "you man" };
+    const data = { ...user, new: "you man", token };
 
     return res.status(200).json({
       message: "User logged in successfully",
