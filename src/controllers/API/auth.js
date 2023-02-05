@@ -43,7 +43,7 @@ async function login(req, res) {
       expiresIn: "7d",
     });
     delete user.password;
-    const data = { ...user, new: "you man", token };
+    const data = { ...user, token };
 
     return res.status(200).json({
       message: "User logged in successfully",
