@@ -18,7 +18,7 @@ async function login(req, res) {
   try {
     const { phone, password } = req.body;
 
-    const user = await User.findOne({
+    var user = await User.findOne({
       where: { phone },
     });
 
@@ -33,19 +33,20 @@ async function login(req, res) {
         message: "Invalid credentials",
       });
     }
+    var user = await User.findOne({
+      raw: true,
+      nest: true,
+      where: { phone },
+    });
 
-    const token = jwt.sign(
-      { sub: user.dataValues.phone, id: user.dataValues.id },
-      config.secret,
-      {
-        expiresIn: "7d",
-      }
-    );
+    const token = jwt.sign({ sub: user.phone, id: user.id }, config.secret, {
+      expiresIn: "7d",
+    });
 
-    delete user.dataValues.password;
+    delete user.password;
     return res.status(200).json({
       message: "User logged in successfully",
-      data: { ...user.dataValues, token },
+      data: { ...user, token },
     });
   } catch (error) {
     return res.status(400).json({
