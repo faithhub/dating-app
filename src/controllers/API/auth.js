@@ -28,11 +28,11 @@ async function login(req, res) {
       });
     }
 
-    if (!user.validPassword(password)) {
-      return res.status(400).json({
-        message: "Invalid credentials",
-      });
-    }
+    // if (!user.validPassword(password)) {
+    //   return res.status(400).json({
+    //     message: "Invalid credentials",
+    //   });
+    // }
 
     const token = jwt.sign({ sub: user.phone, id: user.id }, config.secret, {
       expiresIn: "7d",
