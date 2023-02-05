@@ -34,14 +34,14 @@ async function login(req, res) {
     //   });
     // }
 
-    const token = jwt.sign({ sub: user.phone, id: user.id }, config.secret, {
-      expiresIn: "7d",
-    });
+    // const token = jwt.sign({ sub: user.phone, id: user.id }, config.secret, {
+    //   expiresIn: "7d",
+    // });
 
     // delete user.dataValues.password;
     return res.status(200).json({
       message: "User logged in successfully",
-      data: { token },
+      // data: { token },
       user: user,
     });
   } catch (error) {
