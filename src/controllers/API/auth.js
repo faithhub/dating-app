@@ -38,10 +38,11 @@ async function login(req, res) {
       expiresIn: "7d",
     });
 
-    delete user.dataValues.password;
+    // delete user.dataValues.password;
     return res.status(200).json({
       message: "User logged in successfully",
       data: { token },
+      user: user,
     });
   } catch (error) {
     console.log(error);
