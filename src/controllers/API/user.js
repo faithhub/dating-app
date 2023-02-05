@@ -61,7 +61,7 @@ async function updateProfile(req, res) {
       raw: true,
     });
 
-    user.interests = JSON.parse(user.interests);
+    // user.interests = JSON.parse(user.interests);
     return res.status(200).json({
       message: "Profile updated successfully",
       data: user,
