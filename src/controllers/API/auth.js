@@ -46,7 +46,7 @@ async function login(req, res) {
     delete user.password;
     return res.status(200).json({
       message: "User logged in successfully",
-      data: { ...user },
+      data: user,
     });
   } catch (error) {
     return res.status(400).json({
