@@ -39,14 +39,16 @@ async function login(req, res) {
       where: { phone },
     });
 
-    // const token = jwt.sign({ sub: user.phone, id: user.id }, config.secret, {
-    //   expiresIn: "7d",
-    // });
+    const token = jwt.sign({ sub: user.phone, id: user.id }, config.secret, {
+      expiresIn: "7d",
+    });
+    // const data = {...user, token}
 
     delete user.password;
     return res.status(200).json({
       message: "User logged in successfully",
       data: user,
+      token: token,
     });
   } catch (error) {
     return res.status(400).json({
