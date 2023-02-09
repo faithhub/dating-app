@@ -71,16 +71,6 @@ async function register(req, res) {
       });
     }
 
-    // const password = await hashIt(req.body.password);
-    // const payload = {
-    //   ...req.body,
-    //   username: req.body.matric,
-    //   type: "student",
-    // };
-    // delete payload.matric;
-    // delete payload.confirmPassword;
-    // console.log(payload);
-    // const save = await User.create(payload);
     const createUser = await User.create({ phone, password });
 
     if (!createUser) {
@@ -89,8 +79,22 @@ async function register(req, res) {
       });
     }
 
+    var user = await User.findOne({
+      raw: true,
+      nest: true,
+      where: { phone },
+    });
+
+    const token = jwt.sign({ sub: user.phone, id: user.id }, config.secret, {
+      expiresIn: "7d",
+    });
+
+    delete user.password;
+    const data = { ...user, token };
+
     return res.status(200).json({
       message: "User created successfully",
+      data: data,
     });
   } catch (error) {
     return res.status(400).json({
@@ -111,6 +115,7 @@ async function sendCode(req, res) {
       data: sendCode,
     });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({
       message: "An error occur",
       error: error.message,
