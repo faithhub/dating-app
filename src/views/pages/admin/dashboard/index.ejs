@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<!-- =========================================================
+* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
+==============================================================
+
+* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
+* Created by: ThemeSelection
+* License: You must have a valid license purchased in order to legally use the theme for your project.
+* Copyright ThemeSelection (https://themeselection.com)
+
+=========================================================
+ -->
+<!-- beautify ignore:start -->
+<html
+  lang="en"
+  class="light-style layout-navbar-fixed layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="/assets/"
+  data-template="vertical-menu-template"
+>
+  <%- include("../../../partials/header") %>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+        <%- include("../../../partials/sideMenu") %>
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+
+          <%- include("../../../partials/nav") %>
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row g-4 mb-4">
+                <div class="col-sm-6 col-xl-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div
+                        class="d-flex align-items-start justify-content-between"
+                      >
+                        <div class="content-left">
+                          <span>Course</span>
+                          <div class="d-flex align-items-end mt-2">
+                            <h4 class="mb-0 me-2">
+                              <%= locals.dataCount.course %>
+                            </h4>
+                            <small class="text-success"></small>
+                          </div>
+                          <small>Total No. of Courses</small>
+                        </div>
+                        <span class="badge bg-label-primary rounded p-2">
+                          <i class="bx bx-user bx-sm"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div
+                        class="d-flex align-items-start justify-content-between"
+                      >
+                        <div class="content-left">
+                          <span>Lecturer</span>
+                          <div class="d-flex align-items-end mt-2">
+                            <h4 class="mb-0 me-2">
+                              <%= locals.dataCount.lecturer %>
+                            </h4>
+                            <small class="text-success"></small>
+                          </div>
+                          <small>Total No. of Lecturers </small>
+                        </div>
+                        <span class="badge bg-label-danger rounded p-2">
+                          <i class="bx bx-user-plus bx-sm"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div
+                        class="d-flex align-items-start justify-content-between"
+                      >
+                        <div class="content-left">
+                          <span>Student</span>
+                          <div class="d-flex align-items-end mt-2">
+                            <h4 class="mb-0 me-2">
+                              <%= locals.dataCount.student %>
+                            </h4>
+                            <small class="text-danger"></small>
+                          </div>
+                          <small>Total No. of Students</small>
+                        </div>
+                        <span class="badge bg-label-success rounded p-2">
+                          <i class="bx bx-group bx-sm"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div
+                        class="d-flex align-items-start justify-content-between"
+                      >
+                        <div class="content-left">
+                          <span>Work Files</span>
+                          <div class="d-flex align-items-end mt-2">
+                            <h4 class="mb-0 me-2">
+                              <%= locals.dataCount.file %>
+                            </h4>
+                            <small class="text-success"></small>
+                          </div>
+                          <small>Total No. of Work File</small>
+                        </div>
+                        <span class="badge bg-label-warning rounded p-2">
+                          <i class="bx bx-book bx-sm"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12 mb-4 order-0">
+                  <div class="card">
+                    <div class="d-flex align-items-end row">
+                      <div class="col-sm-7">
+                        <div class="card-body">
+                          <h5 class="card-title text-primary">
+                            Welcome <%= locals.user.username %>! 🎉
+                          </h5>
+                          <p class="mb-4">
+                            Name:
+                            <span class="fw-bold">
+                              <%= locals.user.name %>!</span
+                            ><br />
+                            email:
+                            <span class="fw-bold">
+                              <%= locals.user.email %>!</span
+                            >
+                          </p>
+
+                          <a
+                            href="/admin/profile"
+                            class="btn btn-sm btn-label-primary"
+                            >Edit Profile</a
+                          >
+                        </div>
+                      </div>
+                      <div class="col-sm-5 text-center text-sm-left">
+                        <div class="card-body pb-0 px-0 px-md-4">
+                          <img
+                            src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/illustrations/man-with-laptop-light.png"
+                            height="140"
+                            alt="View Badge User"
+                            data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                            data-app-light-img="illustrations/man-with-laptop-light.png"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+
+            <!-- Footer -->
+            <%- include("../../../partials/footer") %>
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <%- include("../../../partials/script") %>
+  </body>
+</html>
