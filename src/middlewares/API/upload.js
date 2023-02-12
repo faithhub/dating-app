@@ -11,7 +11,6 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
-// ,,
 /**
  *	multer setting for photo upload storage and imagename setting, also
  *	set the file details in request object

@@ -53,18 +53,17 @@ async function updateProfile(req, res) {
 
     delete params.phone;
     if (params.interests) {
-      console.log(params.interests, JSON.parse(params.interests));
       params.interests = JSON.parse(params.interests).toString();
     }
 
-    // if (req.file) {
-    //   const saveImage = await Image.create({
-    //     name: req.file.filename,
-    //     url: req.file.path,
-    //   });
-    //   var saveImageId = saveImage.id;
-    //   params.avatar = saveImageId;
-    // }
+    if (req.file) {
+      const saveImage = await Image.create({
+        name: req.file.filename,
+        url: req.file.path,
+      });
+      var saveImageId = saveImage.id;
+      params.avatar = saveImageId;
+    }
 
     const updateUser = await User.update(params, {
       where: {
@@ -91,7 +90,6 @@ async function updateProfile(req, res) {
           as: "image",
         },
       ],
-      // raw: true,
     });
 
     if (user.image) {
