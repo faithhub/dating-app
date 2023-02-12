@@ -1,4 +1,5 @@
 const { User, Image } = require("../../database/models");
+const uploadDir = "/" + "storage" + "/" + "images/";
 
 async function profile(req, res) {
   try {
@@ -48,6 +49,7 @@ async function profile(req, res) {
 
 async function updateProfile(req, res) {
   try {
+    const fullUrl = req.headers.host;
     const params = req.body;
     var saveImageId = null;
 
@@ -57,9 +59,15 @@ async function updateProfile(req, res) {
     }
 
     if (req.file) {
+      var filePath = fullUrl + uploadDir + req.file.filename;
+      // console.log(fullUrl + uploadDir + req.file.path, "now");
+      console.log(fullUrl, "now");
+      console.log(uploadDir, "now");
+      console.log(req.file.filename, "now");
       const saveImage = await Image.create({
         name: req.file.filename,
         url: req.file.path,
+        url: filePath,
       });
       var saveImageId = saveImage.id;
       params.avatar = saveImageId;
