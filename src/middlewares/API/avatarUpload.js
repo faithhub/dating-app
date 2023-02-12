@@ -5,7 +5,7 @@ const path = require("path");
 const __basedir = path.resolve();
 const maxSize = 10 * 1024 * 1024;
 
-const uploadDir = "storage" + "/" + "images/";
+const uploadDir = "src" + "/" + "public" + "/" + "storage" + "/" + "images/";
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -21,7 +21,7 @@ let storage = Multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const fileName =
-      "Photo" + "_" + Date.now() + path.extname(file.originalname);
+      "Avatar" + "_" + Date.now() + path.extname(file.originalname);
     cb(null, fileName);
   },
 });

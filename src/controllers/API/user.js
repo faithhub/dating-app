@@ -1,6 +1,4 @@
 const { User, Image } = require("../../database/models");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 async function profile(req, res) {
   try {
@@ -13,7 +11,13 @@ async function profile(req, res) {
       attributes: {
         exclude: ["password"],
       },
-      raw: true,
+      include: [
+        {
+          model: Image,
+          as: "image",
+        },
+      ],
+      // raw: true,
     });
 
     if (!user) {
@@ -21,8 +25,16 @@ async function profile(req, res) {
         message: "No user found",
       });
     }
-    // console.log(__basedir + "/resources/static/assets/uploads/");
-    user.interests = JSON.parse(user.interests);
+
+    if (user.image) {
+      user.avatar = user.image;
+    }
+
+    if (user.interests) {
+      const userInterestSrg = user.interests;
+      user.interests = userInterestSrg.split(",");
+    }
+
     return res.status(200).json({
       data: user,
     });
@@ -43,17 +55,16 @@ async function updateProfile(req, res) {
     if (params.interests) {
       console.log(params.interests, JSON.parse(params.interests));
       params.interests = JSON.parse(params.interests).toString();
-      // console.log(params, "now");
     }
 
-    if (req.file) {
-      const saveImage = await Image.create({
-        name: req.file.filename,
-        url: req.file.path,
-      });
-      var saveImageId = saveImage.id;
-      params.avatar = saveImageId;
-    }
+    // if (req.file) {
+    //   const saveImage = await Image.create({
+    //     name: req.file.filename,
+    //     url: req.file.path,
+    //   });
+    //   var saveImageId = saveImage.id;
+    //   params.avatar = saveImageId;
+    // }
 
     const updateUser = await User.update(params, {
       where: {
@@ -82,8 +93,6 @@ async function updateProfile(req, res) {
       ],
       // raw: true,
     });
-
-    // console.log();
 
     if (user.image) {
       user.avatar = user.image;
