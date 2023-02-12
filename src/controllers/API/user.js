@@ -39,7 +39,10 @@ async function updateProfile(req, res) {
     const params = req.body;
 
     delete params.phone;
-    // delete params.interests;
+    if (params.interests) {
+      params.interests = params.interests.toString();
+      console.log(params, "now");
+    }
 
     const updateUser = await User.update(params, {
       where: {
@@ -52,6 +55,7 @@ async function updateProfile(req, res) {
         message: "An error occur when saving user data",
       });
     }
+
     const user = await User.findOne({
       where: {
         id: req.user.id,
@@ -62,7 +66,11 @@ async function updateProfile(req, res) {
       raw: true,
     });
 
-    user.interests = JSON.parse(user.interests);
+    if (user.interests) {
+      const userInterestSrg = user.interests;
+      user.interests = userInterestSrg.split(",");
+    }
+
     return res.status(200).json({
       message: "Profile updated successfully",
       data: user,

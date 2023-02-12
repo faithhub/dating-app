@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         values: ["Male", "Female"],
       },
       interests: {
-        type: DataTypes.ARRAY(DataTypes.TEXT),
+        type: DataTypes.TEXT,
         defaultValue: null,
       },
       account_purpose: {
