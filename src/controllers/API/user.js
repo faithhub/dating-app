@@ -39,7 +39,7 @@ async function updateProfile(req, res) {
     const params = req.body;
 
     delete params.phone;
-    delete params.interests;
+    // delete params.interests;
 
     const updateUser = await User.update(params, {
       where: {
