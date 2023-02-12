@@ -1,4 +1,4 @@
-const { User } = require("../../database/models");
+const { User, Image } = require("../../database/models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -37,11 +37,22 @@ async function profile(req, res) {
 async function updateProfile(req, res) {
   try {
     const params = req.body;
+    var saveImageId = null;
 
     delete params.phone;
     if (params.interests) {
-      params.interests = params.interests.toString();
-      console.log(params, "now");
+      console.log(params.interests, JSON.parse(params.interests));
+      params.interests = JSON.parse(params.interests).toString();
+      // console.log(params, "now");
+    }
+
+    if (req.file) {
+      const saveImage = await Image.create({
+        name: req.file.filename,
+        url: req.file.path,
+      });
+      var saveImageId = saveImage.id;
+      params.avatar = saveImageId;
     }
 
     const updateUser = await User.update(params, {
@@ -63,8 +74,20 @@ async function updateProfile(req, res) {
       attributes: {
         exclude: ["password"],
       },
-      raw: true,
+      include: [
+        {
+          model: Image,
+          as: "image",
+        },
+      ],
+      // raw: true,
     });
+
+    // console.log();
+
+    if (user.image) {
+      user.avatar = user.image;
+    }
 
     if (user.interests) {
       const userInterestSrg = user.interests;
