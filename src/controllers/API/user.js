@@ -60,13 +60,9 @@ async function updateProfile(req, res) {
 
     if (req.file) {
       var filePath = fullUrl + uploadDir + req.file.filename;
-      // console.log(fullUrl + uploadDir + req.file.path, "now");
-      console.log(fullUrl, "now");
-      console.log(uploadDir, "now");
-      console.log(req.file.filename, "now");
       const saveImage = await Image.create({
         name: req.file.filename,
-        url: req.file.path,
+        // url: req.file.path,
         url: filePath,
       });
       var saveImageId = saveImage.id;

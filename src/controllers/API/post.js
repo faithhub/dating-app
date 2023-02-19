@@ -1,5 +1,6 @@
 const { Post, Image, User, Like, Friend } = require("../../database/models");
 const Sequelize = require("sequelize");
+const uploadDir = "/" + "storage" + "/" + "posts/";
 const Op = Sequelize.Op;
 
 async function deletePost(req, res) {
@@ -90,13 +91,16 @@ async function getPosts(req, res) {
 
 async function create(req, res) {
   try {
+    const fullUrl = req.headers.host;
     if (req.file == undefined) {
       return res.status(400).send({ message: "Please upload the Post Image!" });
     }
 
+    var filePath = fullUrl + uploadDir + req.file.filename;
     const saveImage = await Image.create({
       name: req.file.filename,
-      url: req.file.path,
+      // url: req.file.path,
+      url: filePath,
     });
 
     const createPost = await Post.create({
