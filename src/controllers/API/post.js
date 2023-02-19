@@ -1,7 +1,61 @@
 const { Post, Image, User, Like, Friend } = require("../../database/models");
 const Sequelize = require("sequelize");
 const uploadDir = "/" + "storage" + "/" + "posts/";
-const Op = Sequelize.Op;
+
+async function allPosts(req, res) {
+  try {
+    const page = req.query.page ? req.query.page : 1;
+    const limit = req.query.limit ? req.query.limit : 12;
+
+    const posts = await Post.paginate(page, limit, {
+      order: [["createdAt", "ASC"]],
+      include: [
+        {
+          model: Image,
+          as: "image",
+          attributes: ["url"],
+        },
+        {
+          model: User,
+          as: "user",
+          attributes: [
+            "name",
+            "phone",
+            "email",
+            "dob",
+            "isActive",
+            "acc_status",
+            "account_purpose",
+            "avatar",
+            "location",
+            "longitude",
+            "latitude",
+            "distance_preference",
+            "isCompleteReg",
+            "plan_id",
+          ],
+          include: [
+            {
+              model: Image,
+              as: "image",
+            },
+          ],
+        },
+      ],
+    });
+
+    return res.status(200).json({
+      message: "All Posts",
+      data: posts,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      message: "An error occur when fetching posts",
+      error: error.message,
+    });
+  }
+}
 
 async function deletePost(req, res) {
   try {
@@ -41,6 +95,32 @@ async function getPost(req, res) {
           as: "image",
           attributes: ["url"],
         },
+        {
+          model: User,
+          as: "user",
+          attributes: [
+            "name",
+            "phone",
+            "email",
+            "dob",
+            "isActive",
+            "acc_status",
+            "account_purpose",
+            "avatar",
+            "location",
+            "longitude",
+            "latitude",
+            "distance_preference",
+            "isCompleteReg",
+            "plan_id",
+          ],
+          include: [
+            {
+              model: Image,
+              as: "image",
+            },
+          ],
+        },
       ],
     });
 
@@ -73,6 +153,32 @@ async function getPosts(req, res) {
           as: "image",
           attributes: ["url"],
         },
+        {
+          model: User,
+          as: "user",
+          attributes: [
+            "name",
+            "phone",
+            "email",
+            "dob",
+            "isActive",
+            "acc_status",
+            "account_purpose",
+            "avatar",
+            "location",
+            "longitude",
+            "latitude",
+            "distance_preference",
+            "isCompleteReg",
+            "plan_id",
+          ],
+          include: [
+            {
+              model: Image,
+              as: "image",
+            },
+          ],
+        },
       ],
     });
 
@@ -91,6 +197,8 @@ async function getPosts(req, res) {
 
 async function create(req, res) {
   try {
+    const { tag } = req.body;
+    console.log(tag);
     const fullUrl = req.headers.host;
     if (req.file == undefined) {
       return res.status(400).send({ message: "Please upload the Post Image!" });
@@ -105,6 +213,7 @@ async function create(req, res) {
 
     const createPost = await Post.create({
       imageId: saveImage.id,
+      tag: tag,
       userId: req.user.id,
     });
 
@@ -337,4 +446,11 @@ async function likeUnlikePost(req, res) {
   }
 }
 
-module.exports = { create, getPosts, getPost, deletePost, likeUnlikePost };
+module.exports = {
+  create,
+  getPosts,
+  getPost,
+  deletePost,
+  likeUnlikePost,
+  allPosts,
+};

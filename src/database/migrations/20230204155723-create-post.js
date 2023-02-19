@@ -19,6 +19,9 @@ module.exports = {
       userId: {
         type: Sequelize.STRING,
       },
+      tag: {
+        type: Sequelize.STRING,
+      },
       likes: {
         type: Sequelize.INTEGER,
         allowNull: true,

@@ -11,13 +11,13 @@ const uploadFile = require("../middlewares/API/upload");
 
 router.route("/").get(auth, postController.getPosts);
 
+router.route("/all").get(auth, postController.allPosts);
+
 router.route("/:id").get(auth, postController.getPost);
 
 router.route("/:id").delete(auth, postController.deletePost);
 
 router.route("/:id/:type").get(auth, postController.likeUnlikePost);
-
-// router.route("/unlike").get(auth, postController.likePost);
 
 router.route("/").post(auth, createPost, uploadFile, postController.create);
 

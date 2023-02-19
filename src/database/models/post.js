@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { addPagination } = require("../../ultis/db/sequelize.utils");
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     /**
@@ -20,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
       },
+      tag: DataTypes.STRING,
       imageId: DataTypes.STRING,
       userId: DataTypes.STRING,
       likes: DataTypes.STRING,
@@ -29,5 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Post",
     }
   );
+
+  addPagination(Post);
   return Post;
 };
