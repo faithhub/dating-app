@@ -195,6 +195,43 @@ async function getPosts(req, res) {
   }
 }
 
+async function likedPosts(req, res) {
+  try {
+    const postIds = [];
+    const posts = await Like.findAll({
+      where: { userId: req.user.id },
+      include: [
+        {
+          model: Post,
+          as: "post",
+          include: [
+            {
+              model: Image,
+              as: "image",
+              attributes: ["url"],
+            },
+          ],
+        },
+      ],
+    });
+    posts.map((ell) => {
+      postIds.push(ell.postId);
+    });
+
+    return res.status(200).json({
+      message: "All likes posts",
+      postIds: postIds,
+      data: posts,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      message: "An error occur when fetching liked posts",
+      error: error.message,
+    });
+  }
+}
+
 async function create(req, res) {
   try {
     const { tag } = req.body;
@@ -453,4 +490,5 @@ module.exports = {
   deletePost,
   likeUnlikePost,
   allPosts,
+  likedPosts,
 };

@@ -15,6 +15,8 @@ router.route("/all").get(auth, postController.allPosts);
 
 router.route("/:id").get(auth, postController.getPost);
 
+router.route("/liked/all").get(auth, postController.likedPosts);
+
 router.route("/:id").delete(auth, postController.deletePost);
 
 router.route("/:id/:type").get(auth, postController.likeUnlikePost);
