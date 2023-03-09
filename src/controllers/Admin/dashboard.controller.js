@@ -4,16 +4,16 @@ const bcrypt = require("bcrypt");
 module.exports = class {
   static async index(req, res) {
     try {
-      const student = await User.count({ where: { type: "student" } });
-      const lecturer = await User.count({ where: { type: "lecturer" } });
-      const admin = await User.count({ where: { type: "admin" } });
+      // const student = await User.count({ where: { type: "student" } });
+      // const lecturer = await User.count({ where: { type: "lecturer" } });
+      // const admin = await User.count({ where: { type: "admin" } });
       const course = await Course.count();
       const file = await File.count();
       const dataCount = {
-        student: student,
-        admin: admin,
+        student: 0,
+        admin: 0,
         course: course,
-        lecturer: lecturer,
+        lecturer: 0,
         file: file,
       };
       res.locals.title = "Dashboard";

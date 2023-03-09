@@ -1,4 +1,4 @@
-const { User, Image } = require("../../database/models");
+const { User, Like, Image, Subscription } = require("../../database/models");
 const uploadDir = "/" + "storage" + "/" + "images/";
 
 async function profile(req, res) {
@@ -157,5 +157,4 @@ async function updatePassword(req, res) {
     });
   }
 }
-
 module.exports = { updateProfile, profile, updatePassword };

@@ -6,9 +6,15 @@ module.exports = (method) => {
     case "login":
       {
         return [
-          check("username", "The Matric Number or User Id is required")
+          check("email", "The email is required")
             .not()
-            .isEmpty(),
+            .isEmpty()
+            .isEmail()
+            .normalizeEmail()
+            .withMessage("Your email is not valid")
+            .isLength({
+              max: 50,
+            }),
           check("password", "The Password is required").not().isEmpty(),
         ];
       }

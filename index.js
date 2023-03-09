@@ -8,13 +8,6 @@ const dotenv = require("dotenv");
 const flash = require("express-flash");
 const routes = require("./src/routes");
 
-// var admin = require("./src/routes/admin"),
-//   login = require("./src/routes/login");
-// logout = require("./src/routes/logout");
-// lecturer = require("./src/routes/lecturer");
-// student = require("./src/routes/student");
-// register = require("./src/routes/register");
-// webhooks = require("./src/routes/webhook");
 
 dotenv.config();
 const app = express();
@@ -64,19 +57,14 @@ app.use("/", routes);
 
 app.use((req, res, next) => {
   const error = new Error("Page not found");
-  error.status = 404;
-  next(error);
-});
-
-app.use((error, req, res, next) => {
   res.status(error.status || 500);
-  console.log(error);
   res.json({
     error: {
-      message: error,
+      message: error.message,
     },
   });
 });
+
 
 app.listen(port, () => {
   console.log(`Listening on port:: http://localhost:${port}/`);

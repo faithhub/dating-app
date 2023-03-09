@@ -96,9 +96,11 @@
             <div class="card-body">
               <!-- Logo -->
               <div class="app-brand justify-content-center mb-2">
-                <a href="index.html" class="app-brand-link gap-2">
+                <a href="" class="app-brand-link gap-2">
                   <span class="app-brand-logo demo">
-                    <img src="/assets/img/NNL.png" width="160px" />
+                    <!-- <img src="/assets/img/NNL.png" width="160px" /> -->
+                    <!-- <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png" width="160px" /> -->
+                    <img src="https://i.ibb.co/0stdYbm/d2abd662597191-5a9589b09ddf5-removebg-preview.png" width="160px" />
                   </span>
                   <!-- <span class="app-brand-text demo text-body fw-bolder"
                     >Sneat</span
@@ -117,7 +119,7 @@
                 </div>
                 <% } %>
                 <p></p>
-                <h4 class="mb-2">Plagiarism Detection System</h4>
+                <h4 class="mb-2">Dating App Admin login</h4>
                 <!-- <h4 class="mb-2">Welcome to Plagiarism App 👋</h4> -->
                 <p class="mb-4">Sign In</p>
               </div>
@@ -125,21 +127,21 @@
               <form class="mb-3" action="/login" method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label"
-                    >Matric Number or User ID</label
+                    >Email Address</label
                   >
                   <input
                     type="text"
                     class="form-control"
                     id="email"
-                    name="username"
-                    placeholder="Enter your email or username"
+                    name="email"
+                    placeholder="Enter your email"
                     autofocus
-                    value="CS201600046DPT"
+                    value="admin@gmail.com"
                     style="text-transform: uppercase"
                   />
-                  <% if (locals.message.errors.username) { %>
+                  <% if (locals.message.errors.email) { %>
                   <label class="error"
-                    ><%= locals.message.errors.username.msg %></label
+                    ><%= locals.message.errors.email.msg %></label
                   >
                   <% } %>
                 </div>
@@ -190,12 +192,12 @@
                   </button>
                 </div>
               </form>
-              <p class="text-center">
+              <!-- <p class="text-center">
                 <span>New on our platform?</span>
                 <a href="register">
                   <span>Create an account</span>
                 </a>
-              </p>
+              </p> -->
             </div>
           </div>
           <!-- /Register -->

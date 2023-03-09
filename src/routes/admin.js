@@ -5,12 +5,50 @@ const adminValidation = require("../validations/main.validation");
 const dashboardController = require("../controllers/Admin/dashboard.controller");
 const lecturerController = require("../controllers/Admin/lecturer.controller");
 const courseController = require("../controllers/Admin/course.controller");
+const userController = require("../controllers/Admin/userController");
+const subscriptionController = require("../controllers/Admin/subscriptionController");
 const studentController = require("../controllers/Admin/student.controller");
 const workController = require("../controllers/Admin/file.controller");
 
 const router = express.Router();
 
 router.get("/", authMiddleware.auth, dashboardController.index);
+
+// User management
+router.get("/users", authMiddleware.auth, userController.index);
+
+// Subscription management
+router.get("/subscriptions", authMiddleware.auth, subscriptionController.index);
+router.get(
+  "/add-subscription",
+  authMiddleware.auth,
+  subscriptionController.create
+);
+
+router.post(
+  "/add-subscription",
+  authMiddleware.auth,
+  subscriptionController.create
+);
+
+router.get(
+  "/edit-subscription/:id",
+  authMiddleware.auth,
+  subscriptionController.edit
+);
+
+router.post(
+  "/edit-subscription/:id",
+  authMiddleware.auth,
+  subscriptionController.edit
+);
+
+router.get(
+  "/delete-subscription/:id",
+  authMiddleware.auth,
+  subscriptionController.delete
+);
+
 
 router.get("/courses", authMiddleware.auth, courseController.index);
 

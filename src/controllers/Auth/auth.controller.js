@@ -1,19 +1,19 @@
-const { User, Course } = require("../../database/models");
+const { User, Course, Admin } = require("../../database/models");
 
 module.exports = class {
   static async login(req, res) {
     try {
       if (req.method == "POST") {
-        const payload = { ...req.body, username: req.body.username };
-        const { username, password } = payload;
-        const user = await User.findOne({
-          where: { username: username },
-          include: [
-            {
-              model: Course,
-              as: "course",
-            },
-          ],
+        const payload = { ...req.body, email: req.body.email };
+        const { email, password } = payload;
+        const user = await Admin.findOne({
+          where: { email: email },
+          // include: [
+          //   {
+          //     model: Course,
+          //     as: "course",
+          //   },
+          // ],
         });
 
         if (!user) {
@@ -29,7 +29,7 @@ module.exports = class {
         if (!user.validPassword(password)) {
           req.flash("error", "Incorrect password");
           return res.render("pages/auth/login", {
-            user: "Oluwadara",
+            user: "",
             message: {
               errors: [],
               fail: "Incorrect password",
@@ -40,29 +40,30 @@ module.exports = class {
           id: user.id,
           name: user.name,
           email: user.email,
-          username: user.username,
-          type: user.type,
+          // type: user.type,
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
         };
 
-        if (userData.type == "lecturer") {
-          userData["courseTitle"] = user.course.title;
-          userData["courseCode"] = user.course.code;
-          userData["courseId"] = user.courseId;
-        }
+        // if (userData.type == "lecturer") {
+        //   userData["courseTitle"] = user.course.title;
+        //   userData["courseCode"] = user.course.code;
+        //   userData["courseId"] = user.courseId;
+        // }
         req.session.user = userData;
         res.locals.user = req.session.user;
-        switch (userData.type) {
-          case "student":
-            return res.redirect("/student");
-          case "lecturer":
-            return res.redirect("/lecturer");
-          case "admin":
-            return res.redirect("/admin");
-          default:
-            break;
-        }
+
+        return res.redirect("/admin/subscriptions");
+        // switch (userData.type) {
+        //   case "student":
+        //     return res.redirect("/student");
+        //   case "lecturer":
+        //     return res.redirect("/lecturer");
+        //   case "admin":
+        //     return res.redirect("/admin");
+        //   default:
+        //     break;
+        // }
       }
       res.locals.message = { errors: [] };
       res.render("pages/auth/login");

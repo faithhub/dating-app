@@ -1,5 +1,6 @@
 const { Post, Image, User, Like, Friend } = require("../../database/models");
 const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 const uploadDir = "/" + "storage" + "/" + "posts/";
 
 async function allPosts(req, res) {
@@ -304,7 +305,12 @@ async function likeUnlikePost(req, res) {
 
     //Get likes
     const likes = await Like.findAll({
-      where: { userId: req.user.id },
+      where: {
+        userId: req.user.id,
+        posterId: {
+          [Op.notIn]: req.user.id,
+        },
+      },
     });
 
     //loop likes
@@ -404,78 +410,42 @@ async function likeUnlikePost(req, res) {
     return res.status(200).json({
       isMatch: false,
     });
-
-    // const checkLike = await Like.count({
-    //   where: { postId: post.id, userId: req.user.id },
-    // });
-
-    // if (type == "like") {
-    //   if (checkLike == 0) {
-    //     // Save like
-    //     await Like.create({
-    //       postId: post.id,
-    //       userId: req.user.id,
-    //     });
-
-    //     const param = {
-    //       likes: post.likes + 1,
-    //     };
-
-    //     await Post.update(param, { where: { id } });
-    //   }
-    //   // const checkFriend = await Like.count({
-    //   //   where: { postId: post.id, userId: req.user.id },
-    //   // });
-    //   if (checkLike > 0) {
-    //     return res.status(200).json({
-    //       message: "Already Liked Post",
-    //       data: post,
-    //     });
-    //     // Become friend
-    //     await Friend.create({
-    //       userId: req.user.id,
-    //       posterId: post.userId,
-    //     });
-    //   }
-
-    //   return res.status(200).json({
-    //     message: "Post Liked",
-    //     data: post,
-    //   });
-    // }
-
-    // if (type == "unlike") {
-    //   if (checkLike > 0) {
-    //     await Like.destroy({
-    //       where: { postId: post.id, userId: req.user.id },
-    //     });
-    //   }
-
-    //   const friend = await Friend.count({
-    //     where: { userId: req.user.id, posterId: post.userId },
-    //   });
-
-    //   if (friend > 0) {
-    //     await Friend.destroy({
-    //       where: { userId: req.user.id, posterId: post.userId },
-    //     });
-    //     return res.status(200).json({
-    //       message: "Post Unliked and friend unmatched",
-    //       data: post,
-    //     });
-    //   }
-
-    //   return res.status(200).json({
-    //     message: "Post Unliked",
-    //     data: post,
-    //   });
-    // }
-
-    return res.status(200).json({
-      message: "",
-    });
   } catch (error) {
     console.log(error);
+    return res.status(400).json({
+      message: "An error occur",
+      error: error.message,
+    });
+  }
+}
+
+async function matches(req, res) {
+  try {
+    const likes = await Like.count({ where: { posterId: req.user.id } });
+    const matches = await Friend.findAll({
+      where: {
+        userId: req.user.id,
+        isMatched: true,
+      },
+      include: [
+        {
+          model: User,
+          as: "user",
+          include: [
+            {
+              model: Image,
+              as: "image",
+            },
+          ],
+        },
+      ],
+    });
+
+    return res.status(200).json({
+      likes: likes,
+      matches: matches,
+    });
+  } catch (error) {
     return res.status(400).json({
       message: "An error occur",
       error: error.message,
@@ -491,4 +461,5 @@ module.exports = {
   likeUnlikePost,
   allPosts,
   likedPosts,
+  matches,
 };

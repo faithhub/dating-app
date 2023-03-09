@@ -50,11 +50,26 @@
                       <h5
                         class="card-title mb-0 col-md-8 d-flex justify-content-start align-items-center"
                       >
-                        <b>All Users</b>
+                        <b>Subscriptions</b>
                       </h5>
                       <div
                         class="dt-buttons col-md-4 d-flex justify-content-end align-items-center"
                       >
+                        <a
+                          class="dt-button create-new btn btn-primary"
+                          onclick="shiNew(event)"
+                          data-type="dark"
+                          data-size="s"
+                          data-title="Add New Subscription"
+                          href="/admin/add-subscription"
+                        >
+                          <span
+                            ><i class="bx bx-plus me-sm-2"></i>
+                            <span class="d-none d-sm-inline-block"
+                              >Add Subscription</span
+                            ></span
+                          >
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -63,44 +78,44 @@
                       <thead>
                         <tr>
                           <th>S/N</th>
-                          <th>Course Title</th>
-                          <th>Course Code</th>
-                          <th>Lecturer</th>
-                          <th>Created On</th>
-                          <th>Action</th>
+                          <th>Name</th>
+                          <th>Amount</th>
+                          <th>Duration</th>
+                          <th width="30%">Features</th>
+                          <th width="20%">Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <% if(locals.users){%>
-                          <% users.forEach(function(user) { %>
+                        <% if(locals.subs){%> <% subs.forEach(function(sub) { %>
                         <tr>
+                          <td><%= sn++ %></td>
+                          <td><%= sub.name %></td>
+                          <td>₦<%= sub.amount.toFixed(2) %></td>
                           <td>
-                            <%= sn++ %>
+                            <% if(sub.duration == 1){%> Monthly <% } %> <%
+                            if(sub.duration == 12){%> Annual <% } %>
                           </td>
                           <td>
-                            <%= user.name %>
-                              </td>
-                              <td>
-                                <%= user.code %>
-                              </td>
-                              <td>
-                                <%if(user.lecturer){%>
-                                  <%= user.lecturer.name
-                            %><%}%>
-                          </td>
-                          <td>
-                            <%= locals.moment(user.createdAt) %>
+                            <ul>
+                              <% sub.features.forEach(function(feature) { %>
+                              <li><%= feature %></li>
+                              <% }) %>
+                            </ul>
                           </td>
                           <td>
                             <a
-                              onclick="return confirm('Are you sure you want to delete this Course?')"
-                              href="/admin/delete/course/<%= course.id %>"
+                              onclick="return confirm('Are you sure you want to delete this Subscription?')"
+                              href="/admin/delete-subscription/<%= sub.id %>"
                               class="btn btn-sm btn-danger"
                             >
                               Delete
                             </a>
                             <a
-                              href="/admin/edit/course/<%= course.id %>"
+                              onclick="shiNew(event)"
+                              data-type="dark"
+                              data-size="s"
+                              data-title="Edit <%= sub.name %>"
+                              href="/admin/edit-subscription/<%= sub.id %>"
                               class="btn btn-sm btn-success"
                               >Edit</a
                             >

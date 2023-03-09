@@ -2,6 +2,7 @@ const express = require("express");
 const authRoutes = require("./auth");
 const userRoutes = require("./user");
 const postRoutes = require("./post");
+const subRoutes = require("./subscription");
 const adminRoutes = require("./admin");
 const loginRoutes = require("./login");
 const logoutRoutes = require("./logout");
@@ -19,6 +20,8 @@ router.use("/api/auth", authRoutes);
 router.use("/api/user", userRoutes);
 
 router.use("/api/posts", postRoutes);
+
+router.use("/api/subscriptions", subRoutes);
 
 router.use("/admin", adminRoutes);
 router.use("/", loginRoutes);
