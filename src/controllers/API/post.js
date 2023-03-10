@@ -441,6 +441,12 @@ async function matches(req, res) {
       },
     });
 
+    if (!user) {
+      return res.status(200).json({
+        matches: null,
+      });
+    }
+
     var matchedUsers = user.matchedUsers.split(",");
     var matchedUsers = matchedUsers.map(Number);
 
