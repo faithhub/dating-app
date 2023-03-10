@@ -52,8 +52,22 @@ async function allPosts(req, res) {
       ],
     });
 
+    var likedPosts = [];
+
+    var user = await UserLikes.findOne({
+      where: {
+        userId: req.user.id,
+      },
+    });
+
+    if (user) {
+      var likedPosts = user.likedPosts.split(",");
+      var likedPosts = likedPosts.map(Number);
+    }
+
     return res.status(200).json({
       message: "All Posts",
+      likedPosts: likedPosts,
       data: posts,
     });
   } catch (error) {
@@ -190,8 +204,22 @@ async function getPosts(req, res) {
       ],
     });
 
+    var likedPosts = [];
+
+    var user = await UserLikes.findOne({
+      where: {
+        userId: req.user.id,
+      },
+    });
+
+    if (user) {
+      var likedPosts = user.likedPosts.split(",");
+      var likedPosts = likedPosts.map(Number);
+    }
+
     return res.status(200).json({
       message: "All Posts",
+      likedPosts: likedPosts,
       data: posts,
     });
   } catch (error) {
@@ -205,32 +233,42 @@ async function getPosts(req, res) {
 
 async function likedPosts(req, res) {
   try {
-    const postIds = [];
-    // const posts = await Like.findAll({
-    //   where: { userId: req.user.id },
-    //   include: [
-    //     {
-    //       model: Post,
-    //       as: "post",
-    //       include: [
-    //         {
-    //           model: Image,
-    //           as: "image",
-    //           attributes: ["url"],
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // });
-    // posts.map((ell) => {
-    //   postIds.push(ell.postId);
-    // });
+    var likedPosts = [];
+    var posts = [];
 
-    // return res.status(200).json({
-    //   message: "All likes posts",
-    //   postIds: postIds,
-    //   data: posts,
-    // });
+    var user = await UserLikes.findOne({
+      where: {
+        userId: req.user.id,
+      },
+    });
+
+    if (user) {
+      var matchedUsers = user.matchedUsers.split(",");
+      var matchedUsers = matchedUsers.map(Number);
+      var likedPosts = user.likedPosts.split(",");
+      var likedPosts = likedPosts.map(Number);
+
+      var posts = await Post.findOne({
+        where: {
+          id: {
+            [Sequelize.Op.in]: likedPosts,
+          },
+        },
+        include: [
+          {
+            model: User,
+            as: "user",
+            attributes: ["id"],
+          },
+        ],
+      });
+    }
+
+    return res.status(200).json({
+      message: "All likes posts",
+      postIds: likedPosts,
+      data: posts,
+    });
   } catch (error) {
     console.log(error);
     return res.status(400).json({
