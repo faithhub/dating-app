@@ -41,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         values: ["Flexing", "Dating"],
       },
       avatar: DataTypes.STRING,
+      about: DataTypes.STRING,
       location: DataTypes.STRING,
       longitude: DataTypes.STRING,
       latitude: DataTypes.STRING,

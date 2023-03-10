@@ -50,6 +50,9 @@ module.exports = {
       location: {
         type: Sequelize.STRING,
       },
+      about: {
+        type: Sequelize.STRING,
+      },
       longitude: {
         type: Sequelize.STRING,
       },

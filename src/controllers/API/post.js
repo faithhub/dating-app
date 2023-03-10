@@ -1,4 +1,11 @@
-const { Post, Image, User, Like, Friend } = require("../../database/models");
+const {
+  Post,
+  Image,
+  User,
+  Like,
+  Friend,
+  UserLikes,
+} = require("../../database/models");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const uploadDir = "/" + "storage" + "/" + "posts/";
@@ -199,31 +206,31 @@ async function getPosts(req, res) {
 async function likedPosts(req, res) {
   try {
     const postIds = [];
-    const posts = await Like.findAll({
-      where: { userId: req.user.id },
-      include: [
-        {
-          model: Post,
-          as: "post",
-          include: [
-            {
-              model: Image,
-              as: "image",
-              attributes: ["url"],
-            },
-          ],
-        },
-      ],
-    });
-    posts.map((ell) => {
-      postIds.push(ell.postId);
-    });
+    // const posts = await Like.findAll({
+    //   where: { userId: req.user.id },
+    //   include: [
+    //     {
+    //       model: Post,
+    //       as: "post",
+    //       include: [
+    //         {
+    //           model: Image,
+    //           as: "image",
+    //           attributes: ["url"],
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // });
+    // posts.map((ell) => {
+    //   postIds.push(ell.postId);
+    // });
 
-    return res.status(200).json({
-      message: "All likes posts",
-      postIds: postIds,
-      data: posts,
-    });
+    // return res.status(200).json({
+    //   message: "All likes posts",
+    //   postIds: postIds,
+    //   data: posts,
+    // });
   } catch (error) {
     console.log(error);
     return res.status(400).json({
@@ -281,9 +288,9 @@ async function create(req, res) {
 
 async function likeUnlikePost(req, res) {
   try {
+    var isMatch = false;
+    var msg = "Already liked post";
     const { id, type } = req.params;
-
-    const likesArray = [];
 
     // Check if post does exist
     const post = await Post.findOne({
@@ -297,113 +304,120 @@ async function likeUnlikePost(req, res) {
       ],
     });
 
+    //Return if not exist
     if (!post) {
       return res.status(404).json({
         message: "No Post found",
       });
     }
 
-    //Get likes
-    const likes = await Like.findAll({
+    //Get all user's likes
+    var user = await UserLikes.findOne({
       where: {
         userId: req.user.id,
-        posterId: {
-          [Op.notIn]: req.user.id,
-        },
       },
     });
 
-    //loop likes
-    likes.forEach((element) => {
-      likesArray.push(element.postId);
-    });
+    if (!user) {
+      var user = await UserLikes.create({
+        userId: req.user.id,
+      });
+    }
+
+    if (req.user.id != post.userId) {
+      var postOwner = await UserLikes.findOne({
+        where: {
+          userId: post.userId,
+        },
+      });
+
+      if (!postOwner) {
+        var postOwner = await UserLikes.create({
+          userId: post.userId,
+        });
+      }
+
+      var postOwnerLikedUsers = postOwner.likedUsers.split(",");
+      var postOwnerMatchedUsers = postOwner.matchedUsers.split(",");
+
+      var postOwnerLikedUsers = postOwnerLikedUsers.map(Number);
+      var postOwnerMatchedUsers = postOwnerMatchedUsers.map(Number);
+    }
+
+    var likedPosts = user.likedPosts.split(",");
+    var likedUsers = user.likedUsers.split(",");
+    var matchedUsers = user.matchedUsers.split(",");
+
+    var likedPosts = likedPosts.map(Number);
+    var likedUsers = likedUsers.map(Number);
+    var matchedUsers = matchedUsers.map(Number);
 
     if (type == "like") {
-      const friend = await Friend.findOne({
-        where: { userId: post.userId, likeId: req.user.id, isMatched: false },
-      });
-
-      const user = await Friend.findOne({
-        where: { userId: req.user.id, likeId: post.userId, isMatched: false },
-      });
-      // Check if already like the post
-      if (!likesArray.includes(post.id)) {
-        console.log(!likesArray.includes(post.id));
-        // Save like
-        await Like.create({
-          postId: post.id,
-          userId: req.user.id,
-        });
-
+      if (!likedPosts.includes(parseInt(post.id))) {
+        likedPosts.push(parseInt(post.id));
         // Save count
         const param = {
           likes: post.likes + 1,
         };
         await Post.update(param, { where: { id } });
+        msg = "Post liked";
+      }
 
-        if (friend) {
-          await Friend.update(
-            {
-              isMatched: true,
-            },
-            {
-              where: {
-                userId: post.userId,
-                likeId: req.user.id,
-                isMatched: false,
-              },
+      if (req.user.id != post.userId) {
+        //if they're already matched
+        if (!matchedUsers.includes(parseInt(post.userId))) {
+          if (likedUsers.includes(parseInt(post.userId))) {
+            matchedUsers.push(parseInt(post.userId));
+            postOwnerMatchedUsers.push(req.user.id);
+            isMatch = true;
+          } else {
+            if (!postOwnerLikedUsers.includes(req.user.id)) {
+              console.log(postOwnerLikedUsers, req.user.id);
+              postOwnerLikedUsers.push(req.user.id);
             }
-          );
-          await Friend.create({
-            likeId: req.user.id,
-            userId: post.userId,
-            isMatched: true,
-          });
-
-          return res.status(200).json({
-            message: "Liked Post",
-            isMatch: true,
-          });
+          }
         }
+      }
 
-        if (!user) {
-          await Friend.create({
-            likeId: req.user.id,
-            userId: post.userId,
-            isMatched: false,
-          });
-          return res.status(200).json({
-            message: "Liked Post",
-            isMatch: false,
-          });
-        }
-        return res.status(200).json({
-          message: "Post Liked",
-          isMatch: false,
-        });
+      await UserLikes.update(
+        {
+          likedPosts: likedPosts.toString(),
+          likedUsers: likedUsers.toString(),
+          matchedUsers: matchedUsers.toString(),
+        },
+        { where: { userId: req.user.id } }
+      );
+
+      if (req.user.id != post.userId) {
+        await UserLikes.update(
+          {
+            likedUsers: postOwnerLikedUsers.toString(),
+            matchedUsers: postOwnerMatchedUsers.toString(),
+          },
+          { where: { userId: post.userId } }
+        );
       }
 
       return res.status(200).json({
-        message: "Already like post",
-        isMatch: false,
+        message: msg,
+        isMatch: isMatch,
       });
     }
 
     if (type == "unlike") {
-      if (likesArray.includes(post.id)) {
-        // Save like
-        await Like.destroy({
-          where: { postId: post.id, userId: req.user.id },
-        });
-
-        // Save count
+      if (likedPosts.includes(parseInt(post.id))) {
+        likedPosts.push(parseInt(post.id));
+        // deduct count
         const param = {
           likes: post.likes - 1,
         };
-        var gg = await Post.update(param, { where: { id } });
+        await Post.update(param, { where: { id } });
+        msg = "Unliked Post";
       }
+
       return res.status(200).json({
-        message: "Unliked Post",
+        msg: "Unliked Post",
+        isMatch: isMatch,
       });
     }
 
@@ -421,31 +435,36 @@ async function likeUnlikePost(req, res) {
 
 async function matches(req, res) {
   try {
-    const likes = await Like.count({ where: { posterId: req.user.id } });
-    const matches = await Friend.findAll({
+    var user = await UserLikes.findOne({
       where: {
         userId: req.user.id,
-        isMatched: true,
+      },
+    });
+
+    var matchedUsers = user.matchedUsers.split(",");
+    var matchedUsers = matchedUsers.map(Number);
+
+    const matches = await User.findAll({
+      where: {
+        id: {
+          [Sequelize.Op.in]: matchedUsers,
+        },
+      },
+      attributes: {
+        exclude: ["password"],
       },
       include: [
         {
-          model: User,
-          as: "user",
-          include: [
-            {
-              model: Image,
-              as: "image",
-            },
-          ],
+          model: Image,
+          as: "image",
         },
       ],
     });
-
     return res.status(200).json({
-      likes: likes,
       matches: matches,
     });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({
       message: "An error occur",
       error: error.message,
