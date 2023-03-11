@@ -52,6 +52,7 @@ async function allPosts(req, res) {
       ],
     });
 
+
     var likedPosts = [];
 
     var user = await UserLikes.findOne({
@@ -283,6 +284,13 @@ async function create(req, res) {
     const { tag } = req.body;
     console.log(tag);
     const fullUrl = req.headers.host;
+
+    return res.status(200).json({
+      message: "Post created successfully",
+      data: req.file,
+      fullUrl: fullUrl,
+      body: req.body,
+    });
     if (req.file == undefined) {
       return res.status(400).send({ message: "Please upload the Post Image!" });
     }
