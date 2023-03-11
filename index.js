@@ -1,4 +1,5 @@
 const express = require("express");
+var log4js = require("log4js");
 const morgan = require("morgan");
 // const fileUpload = require("express-fileupload");
 const path = require("path");
@@ -7,6 +8,8 @@ const expressSession = require("express-session");
 const dotenv = require("dotenv");
 const flash = require("express-flash");
 const routes = require("./src/routes");
+
+var log = log4js.getLogger("app");
 
 dotenv.config();
 const app = express();
@@ -47,6 +50,8 @@ if (app.get("env") === "production") {
   // Serve secure cookies, requires HTTPS
   session.cookie.secure = true;
 }
+
+app.use(log4js.connectLogger(log4js.getLogger("http"), { level: "auto" }));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src/views/"));
