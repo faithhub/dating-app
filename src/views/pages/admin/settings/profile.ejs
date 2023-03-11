@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<!-- =========================================================
+* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
+==============================================================
+
+* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
+* Created by: ThemeSelection
+* License: You must have a valid license purchased in order to legally use the theme for your project.
+* Copyright ThemeSelection (https://themeselection.com)
+
+=========================================================
+ -->
+<!-- beautify ignore:start -->
+<html
+  lang="en"
+  class="light-style layout-navbar-fixed layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="/assets/"
+  data-template="vertical-menu-template"
+>
+  <%- include("../../../partials/header") %>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+        <%- include("../../../partials/sideMenu") %>
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+
+          <%- include("../../../partials/nav") %>
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="fw-bold">Profile</h4>
+                  </div>
+                  <div class="card-body">
+                    <form method="post" action="/admin/profile">
+                      <input
+                        type="hidden"
+                        name="id"
+                        value="<%= locals.user.id %>"
+                      />
+                      <div class="row mb-5">
+                        <label
+                          class="col-sm-2 col-form-label"
+                          for="basic-icon-default-fullname"
+                          >Admin ID</label
+                        >
+                        <div class="col-sm-10">
+                          <div class="input-group input-group-merge">
+                            <span
+                              id="basic-icon-default-fullname2"
+                              class="input-group-text"
+                              ><i class="bx bx-user"></i
+                            ></span>
+                            <input
+                              type="text"
+                              name="username"
+                              class="form-control"
+                              id="basic-icon-default-fullname"
+                              value="<%= locals.user.username %>"
+                              placeholder="LEC101"
+                              aria-label="LEC101"
+                              aria-describedby="basic-icon-default-fullname2"
+                            />
+                          </div>
+                          <% if (locals.message.errors.username) { %>
+                          <label class="error">
+                            <%= locals.message.errors.username.msg %>
+                          </label>
+                          <% } %>
+                        </div>
+                      </div>
+                      <div class="row mb-5">
+                        <label
+                          class="col-sm-2 col-form-label"
+                          for="basic-icon-default-fullname"
+                          >Name</label
+                        >
+                        <div class="col-sm-10">
+                          <div class="input-group input-group-merge">
+                            <span
+                              id="basic-icon-default-fullname2"
+                              class="input-group-text"
+                              ><i class="bx bx-user"></i
+                            ></span>
+                            <input
+                              type="text"
+                              name="name"
+                              class="form-control"
+                              id="basic-icon-default-fullname"
+                              value="<%= locals.user.name %>"
+                              placeholder="John Doe"
+                              aria-label="John Doe"
+                              aria-describedby="basic-icon-default-fullname2"
+                            />
+                          </div>
+                          <% if (locals.message.errors.name) { %>
+                          <label class="error"
+                            ><%= locals.message.errors.name.msg %></label
+                          >
+                          <% } %>
+                        </div>
+                      </div>
+                      <div class="row mb-5">
+                        <label
+                          class="col-sm-2 col-form-label"
+                          for="basic-icon-default-email"
+                          >Email</label
+                        >
+                        <div class="col-sm-10">
+                          <div class="input-group input-group-merge">
+                            <span class="input-group-text"
+                              ><i class="bx bx-envelope"></i
+                            ></span>
+                            <input
+                              type="email"
+                              name="email"
+                              id="basic-icon-default-email"
+                              class="form-control"
+                              placeholder="john.doe@gmail.com"
+                              aria-label="john.doe@gmail.com"
+                              value="<%= locals.user.email %>"
+                              aria-describedby="basic-icon-default-email2"
+                            />
+                          </div>
+                          <% if (locals.message.errors.email) { %>
+                          <label class="error"
+                            ><%= locals.message.errors.email.msg %></label
+                          >
+                          <% } %>
+                        </div>
+                      </div>
+                      <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                          <button type="submit" class="btn btn-primary">
+                            Update
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+
+            <!-- Footer -->
+            <%- include("../../../partials/footer") %>
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <%- include("../../../partials/script") %>
+  </body>
+</html>
