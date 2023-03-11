@@ -116,6 +116,8 @@
                               Posts
                             </h4>
                           </div>
+                        <img style="width: 50px !important;"
+                            src="/Users/faith/Documents/node-projects/Dating-App-API/storage/images/Photo_1675631558780.jpg">
                           <div class="card-datatable table-responsive">
                             <table class="dt-responsive table border-top">
                               <thead>
@@ -133,7 +135,7 @@
                                 posts.forEach(function(post) { %>
                                 <tr>
                                   <td><%= sn++ %></td>
-                                  <td><img src="<%= post.image.url || "---" %>"></td>
+                                <td><img style="width: 50px !important;" src="<%= post.image.url || " ---" %>"></td>
                                   <td><%= post.tag || "---" %></td>
                                   <td><%= post.likes || 0 %></td>
                                   <td><%= locals.moment(post.created_at) %></td>
