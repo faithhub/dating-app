@@ -285,12 +285,12 @@ async function create(req, res) {
     console.log(req.body);
     const fullUrl = req.headers.host;
 
-    // return res.status(200).json({
-    //   message: "Post created successfully",
-    //   data: req.file,
-    //   fullUrl: fullUrl,
-    //   body: req.body,
-    // });
+    return res.status(200).json({
+      message: "Post created successfully",
+      data: req.file,
+      fullUrl: fullUrl,
+      body: req.body,
+    });
     if (req.file == undefined) {
       return res.status(400).send({ message: "Please upload the Post Image!" });
     }
