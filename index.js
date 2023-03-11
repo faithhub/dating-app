@@ -54,8 +54,8 @@ if (app.get("env") === "production") {
   // Serve secure cookies, requires HTTPS
   session.cookie.secure = true;
 }
-logger.debug("log message");
-logger.error("log message");
+
+// logger.error("log message");
 // app.use(log4js.connectLogger(log4js.getLogger("http"), { level: "auto" }));
 
 app.set("view engine", "ejs");
@@ -73,6 +73,8 @@ app.use("/", routes);
 //     },
 //   });
 // });
+
+logger.debug("log message");
 app.use((req, res, next) => {
   const error = new Error("Page not found");
   error.status = 404;
