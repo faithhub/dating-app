@@ -5,7 +5,7 @@ const path = require("path");
 const __basedir = path.resolve();
 const maxSize = 10 * 1024 * 1024;
 
-const uploadDir = "src" + "/" + "public" + "/" + "storage" + "/" + "posts/";
+const uploadDir = "src" + "/" + "public" + "/" + "storage" + "/" + "posts_new/";
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
