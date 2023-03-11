@@ -6,7 +6,7 @@ const express = require("express");
 const router = express.Router();
 const { createPost } = require("../validations/API/post");
 const multer = require("multer");
-const upload = multer();
+const upload = require("../middlewares/API/new");
 const uploadFile = require("../middlewares/API/upload");
 
 router.route("/").get(auth, postController.getPosts);
@@ -22,6 +22,9 @@ router.route("/:id").delete(auth, postController.deletePost);
 router.route("/:id/:type").get(auth, postController.likeUnlikePost);
 
 // router.route("/").post(auth, createPost, postController.create);
-router.route("/").post(auth, createPost, uploadFile, postController.create);
-
+// router.route("/").post(auth, createPost, uploadFile, postController.create);
+router
+  .route("/")
+  .post(auth, createPost, upload.single("image"), postController.create);
+// upload.single("image");
 module.exports = router;

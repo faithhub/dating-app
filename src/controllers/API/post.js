@@ -8,7 +8,14 @@ const {
 } = require("../../database/models");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
-const uploadDir = "/" + "storage" + "/" + "posts/";
+const Multer = require("multer");
+const path = require("path");
+const __basedir = path.resolve();
+const maxSize = 10 * 1024 * 1024;
+const uploadDir =
+  "src" + "/" + "public" + "/" + "storage" + "/" + "posts_new_2/";
+const fs = require("fs");
+const util = require("util");
 
 async function allPosts(req, res) {
   try {
@@ -51,7 +58,6 @@ async function allPosts(req, res) {
         },
       ],
     });
-
 
     var likedPosts = [];
 
@@ -282,7 +288,7 @@ async function likedPosts(req, res) {
 async function create(req, res) {
   try {
     const { tag } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     const fullUrl = req.headers.host;
 
     return res.status(200).json({
