@@ -34,6 +34,6 @@ let uploadFile = Multer({
   limits: { fileSize: maxSize },
 }).single("image");
 
-let uploadFileMiddleware = util.promisify(uploadFile);
+// let uploadFileMiddleware = util.promisify(uploadFile);
 
-module.exports = uploadFileMiddleware;
+module.exports = uploadFile;
