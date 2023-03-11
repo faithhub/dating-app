@@ -300,7 +300,7 @@ async function create(req, res) {
     return res.status(200).json({
       message: "Post created successfully",
       // data: filePath,
-      dd: req.file,
+      dd: req.body,
     });
     const saveImage = await Image.create({
       name: req.file.filename,
