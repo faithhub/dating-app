@@ -296,6 +296,11 @@ async function create(req, res) {
     }
 
     var filePath = fullUrl + uploadDir + req.file.filename;
+
+    return res.status(200).json({
+      message: "Post created successfully",
+      data: filePath,
+    });
     const saveImage = await Image.create({
       name: req.file.filename,
       // url: req.file.path,
