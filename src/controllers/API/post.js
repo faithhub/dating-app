@@ -8,13 +8,11 @@ const {
 } = require("../../database/models");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
-const Multer = require("multer");
 const path = require("path");
 const __basedir = path.resolve();
 const uploadDir =
   "src" + "/" + "public" + "/" + "storage" + "/" + "posts_new_3/";
 const fs = require("fs");
-const util = require("util");
 
 async function allPosts(req, res) {
   try {
