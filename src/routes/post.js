@@ -22,9 +22,9 @@ router.route("/:id").delete(auth, postController.deletePost);
 router.route("/:id/:type").get(auth, postController.likeUnlikePost);
 
 // router.route("/").post(auth, createPost, postController.create);
-// router.route("/").post(auth, createPost, uploadFile, postController.create);
-router
-  .route("/")
-  .post(auth, createPost, upload.single("image"), postController.create);
+router.route("/").post(auth, createPost, uploadFile, postController.create);
+// router
+//   .route("/")
+//   .post(auth, createPost, upload.single("image"), postController.create);
 // upload.single("image");
 module.exports = router;
