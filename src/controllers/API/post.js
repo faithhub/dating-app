@@ -11,9 +11,8 @@ const Op = Sequelize.Op;
 const Multer = require("multer");
 const path = require("path");
 const __basedir = path.resolve();
-const maxSize = 10 * 1024 * 1024;
 const uploadDir =
-  "src" + "/" + "public" + "/" + "storage" + "/" + "posts_new_2/";
+  "src" + "/" + "public" + "/" + "storage" + "/" + "posts_new_3/";
 const fs = require("fs");
 const util = require("util");
 
@@ -287,24 +286,44 @@ async function likedPosts(req, res) {
 
 async function create(req, res) {
   try {
+    function getFileExtension(filename) {
+      // get file extension
+      const extension = filename.split(".").pop();
+      return extension;
+    }
+
     const { tag } = req.body;
-    // console.log(req.body);
     const fullUrl = req.headers.host;
 
-    // if (req.file == undefined) {
-    //   return res.status(400).send({ message: "Please upload the Post Image!" });
-    // }
+    if (req.files == undefined) {
+      return res.status(400).send({ message: "Please upload the Post Image!" });
+    }
 
-    // var filePath = fullUrl + uploadDir + req.file.filename;
+    if (!req.files.image) {
+      return res.status(400).send({ message: "Please upload the Post Image!" });
+    }
 
-    return res.status(200).json({
-      message: "Post created successfully",
-      // data: filePath,
-      dd: req.body,
-      fullUrl: fullUrl,
-    });
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir);
+    }
+
+    var image = req.files.image;
+    var imageName =
+      "Image" + "_" + Date.now() + "." + getFileExtension(image.name);
+    const imagePath = uploadDir + imageName;
+    await image.mv(imagePath);
+    // var filePath2 = fullUrl + "/" + uploadDir + imageName;
+    const filePath = __basedir + "/" + uploadDir + imageName;
+
+    // return res.status(200).json({
+    //   message: "Post created successfully",
+    //   dd: req.body,
+    //   filePath2: filePath2,
+    //   filePath: filePath,
+    // });
+
     const saveImage = await Image.create({
-      name: req.file.filename,
+      name: imageName,
       // url: req.file.path,
       url: filePath,
     });

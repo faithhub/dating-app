@@ -1,7 +1,7 @@
 const express = require("express");
 var log4js = require("log4js");
 const morgan = require("morgan");
-// const fileUpload = require("express-fileupload");
+const fileUpload = require("express-fileupload");
 const path = require("path");
 const cors = require("cors");
 const expressSession = require("express-session");
@@ -28,7 +28,11 @@ app.use(flash());
 //   next();
 // };
 // app.use(sessionFlash);
-// app.use(fileUpload());
+app.use(
+  fileUpload({
+    createParentPath: true,
+  })
+);
 
 app.use(morgan("dev"));
 app.use(cors());
