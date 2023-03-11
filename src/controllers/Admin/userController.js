@@ -1,4 +1,4 @@
-const { User, Course } = require("../../database/models");
+const { User, Image, Course, Post } = require("../../database/models");
 const moment = require("moment");
 
 module.exports = class {
@@ -46,9 +46,9 @@ module.exports = class {
   static async delete(req, res) {
     try {
       const { id } = req.params;
-      await Course.destroy({ where: { id } });
-      req.flash("success", "Course deleted successfully");
-      return res.redirect("/admin/courses");
+      await User.destroy({ where: { id } });
+      req.flash("success", "User deleted successfully");
+      return res.redirect("/admin/users");
     } catch (error) {
       req.flash("error", error.message);
       res.redirect("back" || "/admin");
@@ -81,6 +81,62 @@ module.exports = class {
       res.locals.title = "Edit Course";
       res.locals.message = { errors: {} };
       return res.render("pages/admin/course/edit");
+    } catch (error) {
+      console.log(error);
+      req.flash("error", error.message);
+      res.redirect("back" || "/admin");
+    }
+  }
+
+  static async view(req, res) {
+    try {
+      if (req.method == "POST") {
+        const payload = {
+          ...req.body,
+        };
+        delete payload.id;
+        const course = await Course.update(payload, {
+          where: { id: req.body.id },
+        });
+        if (!course) {
+          req.flash("warning", "Something went wrong, try again!");
+          return redirect("back");
+        }
+
+        req.flash("success", "Updated successfully");
+        return res.redirect("/admin/courses");
+      }
+
+      const { id } = req.params;
+      const user = await User.findByPk(id);
+
+      if (!user) {
+        req.flash("warning", "User does not exist");
+        return redirect("back" || "/admin/users");
+      }
+
+      if (user.interests) {
+        const userInterestSrg = user.interests;
+        user.interests = userInterestSrg.split(",");
+      }
+      const posts = await Post.findAll({
+        where: { userId: id },
+        include: [
+          {
+            model: Image,
+            as: "image",
+            attributes: ["url"],
+          },
+        ],
+      });
+
+      res.locals.sn = 1;
+      res.locals.user = user;
+      res.locals.posts = posts;
+      res.locals.moment = moment;
+      res.locals.title = user.name;
+      res.locals.message = { errors: {} };
+      return res.render("pages/admin/users/view");
     } catch (error) {
       console.log(error);
       req.flash("error", error.message);

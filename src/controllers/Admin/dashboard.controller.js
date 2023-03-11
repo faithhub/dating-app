@@ -1,4 +1,4 @@
-const { User, Course, File } = require("../../database/models");
+const { User, Admin, Course, File } = require("../../database/models");
 const bcrypt = require("bcrypt");
 
 module.exports = class {
@@ -32,7 +32,8 @@ module.exports = class {
           ...req.body,
         };
         delete payload.id;
-        const user = await User.update(payload, { where: { id } });
+        console.log(payload);
+        const user = await Admin.update(payload, { where: { id } });
 
         if (!user) {
           req.flash("error", "Something went wrong, try again!");
@@ -42,7 +43,6 @@ module.exports = class {
         const data = {
           id: req.session.user.id,
           email: payload.email,
-          username: payload.username,
           name: payload.name,
           createdAt: req.session.user.createdAt,
           updatedAt: req.session.user.updatedAt,

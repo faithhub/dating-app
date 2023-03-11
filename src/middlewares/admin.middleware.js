@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const { User, Course } = require("../database/models");
+const { User, Admin, Course } = require("../database/models");
 const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 const Op = Sequelize.Op;
@@ -106,20 +106,12 @@ module.exports = class {
       res.locals.errors = errors.mapped();
       return res.redirect("back");
     }
-    const checkemail = await User.count({
+    const checkemail = await Admin.count({
       where: { email, id: { [Op.notIn]: [id] } },
       paranoid: false,
     });
     if (checkemail > 0) {
       req.flash("error", "The email has already exist");
-      return res.redirect("back");
-    }
-    const checkUsername = await User.count({
-      where: { username, id: { [Op.notIn]: [id] } },
-      paranoid: false,
-    });
-    if (checkUsername > 0) {
-      req.flash("error", "The Admin ID has already exist");
       return res.redirect("back");
     }
     next();

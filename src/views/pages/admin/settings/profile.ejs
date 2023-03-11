@@ -59,37 +59,6 @@
                         <label
                           class="col-sm-2 col-form-label"
                           for="basic-icon-default-fullname"
-                          >Admin ID</label
-                        >
-                        <div class="col-sm-10">
-                          <div class="input-group input-group-merge">
-                            <span
-                              id="basic-icon-default-fullname2"
-                              class="input-group-text"
-                              ><i class="bx bx-user"></i
-                            ></span>
-                            <input
-                              type="text"
-                              name="username"
-                              class="form-control"
-                              id="basic-icon-default-fullname"
-                              value="<%= locals.user.username %>"
-                              placeholder="LEC101"
-                              aria-label="LEC101"
-                              aria-describedby="basic-icon-default-fullname2"
-                            />
-                          </div>
-                          <% if (locals.message.errors.username) { %>
-                          <label class="error">
-                            <%= locals.message.errors.username.msg %>
-                          </label>
-                          <% } %>
-                        </div>
-                      </div>
-                      <div class="row mb-5">
-                        <label
-                          class="col-sm-2 col-form-label"
-                          for="basic-icon-default-fullname"
                           >Name</label
                         >
                         <div class="col-sm-10">

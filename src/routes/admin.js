@@ -17,6 +17,8 @@ router.get("/", authMiddleware.auth, dashboardController.index);
 // User management
 router.get("/users", authMiddleware.auth, userController.index);
 
+router.get("/user/:id", authMiddleware.auth, userController.view);
+
 // Subscription management
 router.get("/subscriptions", authMiddleware.auth, subscriptionController.index);
 router.get(
