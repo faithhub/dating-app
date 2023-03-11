@@ -9,8 +9,12 @@ const dotenv = require("dotenv");
 const flash = require("express-flash");
 const routes = require("./src/routes");
 
-var log = log4js.getLogger("app");
+log4js.configure({
+  appenders: { everything: { type: "file", filename: "logs.log" } },
+  categories: { default: { appenders: ["everything"], level: "ALL" } },
+});
 
+const logger = log4js.getLogger();
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
@@ -50,8 +54,9 @@ if (app.get("env") === "production") {
   // Serve secure cookies, requires HTTPS
   session.cookie.secure = true;
 }
-
-app.use(log4js.connectLogger(log4js.getLogger("http"), { level: "auto" }));
+logger.debug("log message");
+logger.error("log message");
+// app.use(log4js.connectLogger(log4js.getLogger("http"), { level: "auto" }));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src/views/"));
