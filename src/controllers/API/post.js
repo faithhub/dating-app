@@ -289,12 +289,12 @@ async function create(req, res) {
   try {
     const { tag } = req.body;
     // console.log(req.body);
-    const fullUrl = req.headers.host;
+    // const fullUrl = req.headers.host;
 
     return res.status(200).json({
       message: "Post created successfully",
-      data: req.file,
-      fullUrl: fullUrl,
+      // data: req.file,
+      // fullUrl: fullUrl,
       body: req.body,
     });
     if (req.file == undefined) {
