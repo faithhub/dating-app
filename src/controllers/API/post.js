@@ -291,9 +291,9 @@ async function create(req, res) {
     // console.log(req.body);
     const fullUrl = req.headers.host;
 
-    if (req.file == undefined) {
-      return res.status(400).send({ message: "Please upload the Post Image!" });
-    }
+    // if (req.file == undefined) {
+    //   return res.status(400).send({ message: "Please upload the Post Image!" });
+    // }
 
     // var filePath = fullUrl + uploadDir + req.file.filename;
 
@@ -301,6 +301,7 @@ async function create(req, res) {
       message: "Post created successfully",
       // data: filePath,
       dd: req.body,
+      fullUrl: fullUrl,
     });
     const saveImage = await Image.create({
       name: req.file.filename,
