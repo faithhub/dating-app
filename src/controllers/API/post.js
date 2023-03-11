@@ -313,12 +313,11 @@ async function create(req, res) {
     // var filePath2 = fullUrl + "/" + uploadDir + imageName;
     const filePath = __basedir + "/" + uploadDir + imageName;
 
-    // return res.status(200).json({
-    //   message: "Post created successfully",
-    //   dd: req.body,
-    //   filePath2: filePath2,
-    //   filePath: filePath,
-    // });
+    return res.status(200).json({
+      message: "Post created successfully",
+      dd: req.body,
+      filePath: image,
+    });
 
     const saveImage = await Image.create({
       name: imageName,
