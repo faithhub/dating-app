@@ -1,5 +1,4 @@
 const express = require("express");
-var log4js = require("log4js");
 const morgan = require("morgan");
 // const fileUpload = require("express-fileupload");
 const path = require("path");
@@ -9,6 +8,7 @@ const dotenv = require("dotenv");
 const flash = require("express-flash");
 const routes = require("./src/routes");
 
+const bodyParser = require("body-parser");
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
@@ -34,6 +34,15 @@ app.use(cors());
 // app.use(express.limit(50000000));
 app.use(express.json({ limit: 50000000 }));
 app.use(express.urlencoded({ limit: 50000000, extended: true }));
+
+app.use(bodyParser.json({ limit: "200mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "200mb",
+    extended: true,
+    parameterLimit: 1000000,
+  })
+);
 
 //Auth
 const session = {
