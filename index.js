@@ -31,7 +31,6 @@ app.use(flash());
 
 app.use(morgan("dev"));
 app.use(cors());
-// app.use(express.limit(50000000));
 app.use(express.json({ limit: 50000000 }));
 app.use(express.urlencoded({ limit: 50000000, extended: true }));
 

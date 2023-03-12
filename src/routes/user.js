@@ -11,7 +11,7 @@ router.route("/").get(auth, userController.profile);
 
 router.route("/matched-users").get(auth, postController.matches);
 
-router.route("/").patch(auth, uploadFile, userController.updateProfile);
+router.route("/").patch(auth, userController.updateProfile);
 
 router
   .route("/password")

@@ -11,6 +11,13 @@ const Op = Sequelize.Op;
 const uploadSavedDir = "/" + "storage" + "/" + "images/";
 const uploadDir = "src" + "/" + "public" + "/" + "storage" + "/" + "images/";
 const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+// Configuration
+cloudinary.config({
+  cloud_name: "dbbxlubsv",
+  api_key: "965325856912777",
+  api_secret: "RltmtBjOIQ9hllWYTu8Sejh6Yhs",
+});
 
 async function allPosts(req, res) {
   try {
@@ -282,42 +289,13 @@ async function likedPosts(req, res) {
 
 async function create(req, res) {
   try {
-    function getFileExtension(filename) {
-      // get file extension
-      const extension = filename.split(".").pop();
-      return extension;
-    }
+    const { tag, url, fileName } = req.body;
 
-    const { tag } = req.body;
-
-    if (req.files == undefined) {
-      return res.status(400).send({ message: "Please upload the Post Image!" });
-    }
-
-    if (!req.files.image) {
-      return res.status(400).send({ message: "Please upload the Post Image!" });
-    }
-
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir);
-    }
-
-    var image = req.files.image;
-    var imageName =
-      "Image" + "_" + Date.now() + "." + getFileExtension(image.name);
-    const imagePath = uploadDir + imageName;
-    image.mv(imagePath, (err) => {
-      if (err) {
-        return res.status(400).json({ message: err });
-      }
-    });
-    const fullUrl = req.headers.host;
-    const filePath = fullUrl + uploadSavedDir + imageName;
+    const postFileName = "Post_Image_" + fileName + "_" + Date.now();
 
     const saveImage = await Image.create({
-      name: imageName,
-      // url: req.file.path,
-      url: filePath,
+      name: postFileName,
+      url: url,
     });
 
     const createPost = await Post.create({

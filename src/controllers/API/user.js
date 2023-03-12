@@ -49,21 +49,23 @@ async function profile(req, res) {
 
 async function updateProfile(req, res) {
   try {
-    const fullUrl = req.headers.host;
+
     const params = req.body;
     var saveImageId = null;
 
+    console.log(params.interests);
+
     delete params.phone;
     if (params.interests) {
-      params.interests = JSON.parse(params.interests).toString();
+      params.interests = params.interests.toString();
     }
 
-    if (req.file) {
-      var filePath = fullUrl + uploadDir + req.file.filename;
+    if (params.avatar) {
+      const postFileName =
+        "User_Avatar_" + params.avatar.fileName + "_" + Date.now();
       const saveImage = await Image.create({
-        name: req.file.filename,
-        // url: req.file.path,
-        url: filePath,
+        name: postFileName,
+        url: params.avatar.url,
       });
       var saveImageId = saveImage.id;
       params.avatar = saveImageId;
@@ -110,6 +112,7 @@ async function updateProfile(req, res) {
       data: user,
     });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({
       message: "An error occur",
       error: error.message,
