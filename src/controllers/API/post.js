@@ -255,9 +255,35 @@ async function likedPosts(req, res) {
         },
         include: [
           {
+            model: Image,
+            as: "image",
+            attributes: ["url"],
+          },
+          {
             model: User,
             as: "user",
-            attributes: ["id"],
+            attributes: [
+              "name",
+              "phone",
+              "email",
+              "dob",
+              "isActive",
+              "acc_status",
+              "account_purpose",
+              "avatar",
+              "location",
+              "longitude",
+              "latitude",
+              "distance_preference",
+              "isCompleteReg",
+              "plan_id",
+            ],
+            include: [
+              {
+                model: Image,
+                as: "image",
+              },
+            ],
           },
         ],
       });
