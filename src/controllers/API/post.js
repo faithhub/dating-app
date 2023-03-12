@@ -305,18 +305,18 @@ async function create(req, res) {
     //   fs.mkdirSync(uploadDir);
     // }
 
-    var image = req.files.image;
-    var imageName =
-      "Image" + "_" + Date.now() + "." + getFileExtension(image.name);
-    const imagePath = uploadDir + imageName;
-    await image.mv(imagePath);
-    // var filePath2 = fullUrl + "/" + uploadDir + imageName;
-    const filePath = __basedir + "/" + uploadDir + imageName;
+    // var image = req.files.image;
+    // var imageName =
+    //   "Image" + "_" + Date.now() + "." + getFileExtension(image.name);
+    // const imagePath = uploadDir + imageName;
+    // await image.mv(imagePath);
+    // // var filePath2 = fullUrl + "/" + uploadDir + imageName;
+    // const filePath = __basedir + "/" + uploadDir + imageName;
 
     return res.status(200).json({
       message: "Post created successfully",
       dd: req.body,
-      filePath: image,
+      filePath: req.files,
     });
 
     const saveImage = await Image.create({
