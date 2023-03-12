@@ -8,8 +8,6 @@ const {
 } = require("../../database/models");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
-const path = require("path");
-const __basedir = path.resolve();
 const uploadSavedDir = "/" + "storage" + "/" + "images/";
 const uploadDir = "src" + "/" + "public" + "/" + "storage" + "/" + "images/";
 const fs = require("fs");

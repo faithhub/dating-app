@@ -1,5 +1,7 @@
 const { User, Like, Image, Subscription } = require("../../database/models");
-const uploadDir = "/" + "storage" + "/" + "images/";
+const uploadSavedDir = "/" + "storage" + "/" + "images/";
+const uploadDir = "src" + "/" + "public" + "/" + "storage" + "/" + "images/";
+const fs = require("fs");
 
 async function profile(req, res) {
   try {
@@ -49,6 +51,12 @@ async function profile(req, res) {
 
 async function updateProfile(req, res) {
   try {
+    function getFileExtension(filename) {
+      // get file extension
+      const extension = filename.split(".").pop();
+      return extension;
+    }
+
     const fullUrl = req.headers.host;
     const params = req.body;
     var saveImageId = null;
@@ -58,15 +66,33 @@ async function updateProfile(req, res) {
       params.interests = JSON.parse(params.interests).toString();
     }
 
-    if (req.file) {
-      var filePath = fullUrl + uploadDir + req.file.filename;
-      const saveImage = await Image.create({
-        name: req.file.filename,
-        // url: req.file.path,
-        url: filePath,
-      });
-      var saveImageId = saveImage.id;
-      params.avatar = saveImageId;
+    if (req.files) {
+      if (req.files.avatar) {
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir);
+        }
+
+        var image = req.files.avatar;
+        var imageName =
+          "Avatar" + "_" + Date.now() + "." + getFileExtension(image.name);
+        const imagePath = uploadDir + imageName;
+        image.mv(imagePath, (err) => {
+          if (err) {
+            return res.status(400).json({ message: err });
+          }
+        });
+        const fullUrl = req.headers.host;
+        const filePath = fullUrl + uploadSavedDir + imageName;
+
+        const saveImage = await Image.create({
+          name: imageName,
+          // url: req.file.path,
+          url: filePath,
+        });
+
+        var saveImageId = saveImage.id;
+        params.avatar = saveImageId;
+      }
     }
 
     const updateUser = await User.update(params, {
