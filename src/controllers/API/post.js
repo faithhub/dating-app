@@ -8,16 +8,6 @@ const {
 } = require("../../database/models");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
-const uploadSavedDir = "/" + "storage" + "/" + "images/";
-const uploadDir = "src" + "/" + "public" + "/" + "storage" + "/" + "images/";
-const fs = require("fs");
-const cloudinary = require("cloudinary").v2;
-// Configuration
-cloudinary.config({
-  cloud_name: "dbbxlubsv",
-  api_key: "965325856912777",
-  api_secret: "RltmtBjOIQ9hllWYTu8Sejh6Yhs",
-});
 
 async function allPosts(req, res) {
   try {

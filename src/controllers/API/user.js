@@ -1,5 +1,4 @@
 const { User, Like, Image, Subscription } = require("../../database/models");
-const uploadDir = "/" + "storage" + "/" + "images/";
 
 async function profile(req, res) {
   try {
@@ -49,7 +48,6 @@ async function profile(req, res) {
 
 async function updateProfile(req, res) {
   try {
-
     const params = req.body;
     var saveImageId = null;
 
