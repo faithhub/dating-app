@@ -31,7 +31,7 @@ let storage = Multer.diskStorage({
  */
 let uploadFile = Multer({
   storage: storage,
-  limits: { fileSize: maxSize },
+  limits: { fileSize: 5048576, fieldSize: 500 },
 }).single("avatar");
 
 let uploadFileMiddleware = util.promisify(uploadFile);
