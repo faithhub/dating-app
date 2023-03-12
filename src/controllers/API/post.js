@@ -10,8 +10,8 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const path = require("path");
 const __basedir = path.resolve();
-const uploadDir =
-  "src" + "/" + "public" + "/" + "storage" + "/" + "posts_new_3/";
+const uploadSavedDir = "/" + "storage" + "/" + "images/";
+const uploadDir = "src" + "/" + "public" + "/" + "storage" + "/" + "images/";
 const fs = require("fs");
 
 async function allPosts(req, res) {
@@ -291,7 +291,6 @@ async function create(req, res) {
     }
 
     const { tag } = req.body;
-    // const fullUrl = req.headers.host;
 
     if (req.files == undefined) {
       return res.status(400).send({ message: "Please upload the Post Image!" });
@@ -301,23 +300,21 @@ async function create(req, res) {
       return res.status(400).send({ message: "Please upload the Post Image!" });
     }
 
-    // if (!fs.existsSync(uploadDir)) {
-    //   fs.mkdirSync(uploadDir);
-    // }
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir);
+    }
 
-    // var image = req.files.image;
-    // var imageName =
-    //   "Image" + "_" + Date.now() + "." + getFileExtension(image.name);
-    // const imagePath = uploadDir + imageName;
-    // await image.mv(imagePath);
-    // // var filePath2 = fullUrl + "/" + uploadDir + imageName;
-    // const filePath = __basedir + "/" + uploadDir + imageName;
-
-    return res.status(200).json({
-      message: "Post created successfully",
-      dd: req.body,
-      filePath: req.files,
+    var image = req.files.image;
+    var imageName =
+      "Image" + "_" + Date.now() + "." + getFileExtension(image.name);
+    const imagePath = uploadDir + imageName;
+    image.mv(imagePath, (err) => {
+      if (err) {
+        return res.status(400).json({ message: err });
+      }
     });
+    const fullUrl = req.headers.host;
+    const filePath = fullUrl + uploadSavedDir + imageName;
 
     const saveImage = await Image.create({
       name: imageName,
