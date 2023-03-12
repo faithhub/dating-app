@@ -247,7 +247,7 @@ async function likedPosts(req, res) {
       var likedPosts = user.likedPosts.split(",");
       var likedPosts = likedPosts.map(Number);
 
-      var posts = await Post.findOne({
+      var posts = await Post.findAll({
         where: {
           id: {
             [Sequelize.Op.in]: likedPosts,
