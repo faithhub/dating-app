@@ -291,7 +291,7 @@ async function create(req, res) {
     }
 
     const { tag } = req.body;
-    const fullUrl = req.headers.host;
+    // const fullUrl = req.headers.host;
 
     if (req.files == undefined) {
       return res.status(400).send({ message: "Please upload the Post Image!" });
