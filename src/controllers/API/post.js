@@ -475,7 +475,7 @@ async function matches(req, res) {
 
     if (!user) {
       return res.status(200).json({
-        matches: null,
+        matches: [],
       });
     }
 
