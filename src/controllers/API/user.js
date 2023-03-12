@@ -57,7 +57,6 @@ async function updateProfile(req, res) {
       return extension;
     }
 
-    const fullUrl = req.headers.host;
     const params = req.body;
     var saveImageId = null;
 

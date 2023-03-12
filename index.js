@@ -30,6 +30,7 @@ app.use(flash());
 // app.use(sessionFlash);
 app.use(
   fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
     createParentPath: true,
   })
 );
