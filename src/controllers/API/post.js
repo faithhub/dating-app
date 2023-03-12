@@ -301,9 +301,9 @@ async function create(req, res) {
       return res.status(400).send({ message: "Please upload the Post Image!" });
     }
 
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir);
-    }
+    // if (!fs.existsSync(uploadDir)) {
+    //   fs.mkdirSync(uploadDir);
+    // }
 
     var image = req.files.image;
     var imageName =
