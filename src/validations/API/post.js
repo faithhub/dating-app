@@ -1,7 +1,7 @@
 const { check, validationResult } = require("express-validator");
 
 exports.createPost = [
-  //   check("tag").trim().not().isEmpty().withMessage("Post Tag can not be empty!"),
+  check("tag").trim().not().isEmpty().withMessage("Post Tag can not be empty!"),
   (req, res, next) => {
     // console.log(req.body);
     const errors = validationResult(req);
