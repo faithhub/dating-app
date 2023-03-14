@@ -17,9 +17,20 @@ async function allSubs(req, res) {
       delete element.monthly;
       delete element.annually;
     });
+    const data = [
+      {
+        id: 1,
+        name: "Dating",
+        features: ["Video", "Messaging", "Audio"],
+        createdAt: "2023-03-14T12:56:39.000Z",
+        updatedAt: "2023-03-14T13:31:43.000Z",
+        deletedAt: null,
+        amount: 2000,
+      },
+    ];
 
     return res.status(200).json({
-      data: arrSub,
+      data: data,
     });
   } catch (error) {
     return res.status(400).json({
