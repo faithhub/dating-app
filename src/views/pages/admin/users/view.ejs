@@ -59,14 +59,13 @@
           <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
-
             <div class="container-xl flex-grow-1 container-p-y">
               <div class="row">
                 <div class="col-lg-12 col-12 mb-lg-0 mb-4">
                   <div class="card invoice-preview-card">
                     <div class="card-body">
                       <div class="row p-sm-3 p-0">
-                        <div class="col-md-6 mb-md-0 mb-4">
+                        <div class="col-md-12 mb-md-0 mb-4">
                           <div class="d-flex svg-illustration">
                             <h4 class="app-brand demo text-body fw-bolder">
                               User Details
@@ -116,8 +115,6 @@
                               Posts
                             </h4>
                           </div>
-                        <img style="width: 50px !important;"
-                            src="/Users/faith/Documents/node-projects/Dating-App-API/storage/images/Photo_1675631558780.jpg">
                           <div class="card-datatable table-responsive">
                             <table class="dt-responsive table border-top">
                               <thead>
@@ -135,7 +132,7 @@
                                 posts.forEach(function(post) { %>
                                 <tr>
                                   <td><%= sn++ %></td>
-                                <td><img style="width: 50px !important;" src="<%= post.image.url || " ---" %>"></td>
+                                <td><img class="post-img" src="<%= post.image.url || " /assets/img/post-img.png" %>"></td>
                                   <td><%= post.tag || "---" %></td>
                                   <td><%= post.likes || 0 %></td>
                                   <td><%= locals.moment(post.created_at) %></td>

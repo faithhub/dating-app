@@ -6,16 +6,16 @@ async function allSubs(req, res) {
     const subs = await Subscription.findAll({ raw: true });
 
     subs.forEach((element) => {
-      if (element.duration == 1) {
-        element.duration = "Monthly";
-      }
-      if (element.duration == 12) {
-        element.duration = "Annual";
-      }
+      element.amount = {
+        monthly: element.monthly,
+        annually: element.annually,
+      };
       const str = element.features;
       const arr = str.split(",").filter((element) => element !== "");
       element.features = arr;
       arrSub.push(element);
+      delete element.monthly;
+      delete element.annually;
     });
 
     return res.status(200).json({

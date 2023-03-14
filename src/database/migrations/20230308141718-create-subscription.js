@@ -11,10 +11,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
-      amount: {
+      monthly: {
         type: Sequelize.INTEGER,
       },
-      duration: {
+      annually: {
         type: Sequelize.INTEGER,
       },
       features: {

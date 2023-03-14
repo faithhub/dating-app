@@ -134,7 +134,7 @@ module.exports = class {
       res.locals.user = user;
       res.locals.posts = posts;
       res.locals.moment = moment;
-      res.locals.title = user.name;
+      res.locals.title = "View Users";
       res.locals.message = { errors: {} };
       return res.render("pages/admin/users/view");
     } catch (error) {

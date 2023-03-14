@@ -9,6 +9,8 @@ const userController = require("../controllers/Admin/userController");
 const subscriptionController = require("../controllers/Admin/subscriptionController");
 const studentController = require("../controllers/Admin/student.controller");
 const workController = require("../controllers/Admin/file.controller");
+const postController = require("../controllers/Admin/postController");
+const { createSub } = require("../validations/sub.validation");
 
 const router = express.Router();
 
@@ -30,6 +32,7 @@ router.get(
 router.post(
   "/add-subscription",
   authMiddleware.auth,
+  createSub,
   subscriptionController.create
 );
 
@@ -42,6 +45,7 @@ router.get(
 router.post(
   "/edit-subscription/:id",
   authMiddleware.auth,
+  createSub,
   subscriptionController.edit
 );
 
@@ -50,6 +54,11 @@ router.get(
   authMiddleware.auth,
   subscriptionController.delete
 );
+
+// Post
+router.get("/posts", authMiddleware.auth, postController.index);
+
+router.get("/post/:id", authMiddleware.auth, postController.view);
 
 
 router.get("/courses", authMiddleware.auth, courseController.index);

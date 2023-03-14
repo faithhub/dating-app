@@ -20,35 +20,24 @@
               </div>
               <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-4">
                 <div class="form-group">
-                  <label class="form-label">Amount</label>
-                  <input type="number" class="form-control" placeholder="₦5,000.00" value="<%= sub.amount %>"
-                    name="amount" required="" data-parsley-required-message="Amount is required">
-                  <% if (message.errors.amount) { %>
+                  <label class="form-label">Monthly Amount</label>
+                  <input type="number" class="form-control" placeholder="₦5,000.00" value="<%= sub.monthly %>" name="monthly" required=""
+                    data-parsley-required-message="Monthly Amount is required">
+                  <% if (message.errors.monthly) { %>
                     <label class="error">
-                      <%= message.errors.amount.msg %>
+                      <%= message.errors.monthly.msg %>
                     </label>
                     <% } %>
                 </div>
               </div>
               <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-4">
                 <div class="form-group">
-                  <label class="form-label">Duration</label>
-                  <select class="form-control select2" name="duration"
-                    data-parsley-required-message="Duration is required" required>
-                    <option value="">Select Duration</option>
-                    <option value="1" <% if (sub.duration==1) { %>
-                      selected
-                      <% } %>
-                        >Monthly
-                    </option>
-                    <option value="12" <% if (sub.duration==12) { %>
-                      selected
-                      <% } %>>Annual
-                    </option>
-                  </select>
-                  <% if (message.errors.duration) { %>
+                  <label class="form-label">Annually Amount</label>
+                  <input type="number" class="form-control" placeholder="₦10,000.00" value="<%= sub.annually %>" name="annually"
+                    required="" data-parsley-required-message="Annually Amount is required">
+                  <% if (message.errors.annually) { %>
                     <label class="error">
-                      <%= message.errors.duration.msg %>
+                      <%= message.errors.annually.msg %>
                     </label>
                     <% } %>
                 </div>

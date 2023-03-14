@@ -39,9 +39,6 @@ module.exports = class {
           payload.features = features.toString();
         }
 
-        // params.interests = JSON.parse(params.interests).toString();
-        // user.interests = userInterestSrg.split(",");
-
         console.log(payload);
         const subscription = await Subscription.create(payload);
 

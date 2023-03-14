@@ -33,7 +33,7 @@
       <span class="menu-header-text">User</span>
     </li>
     <li
-      class="menu-item <% if (locals.title === 'All Users' || locals.title === 'Add Course' || locals.title === 'Edit Course') { %> active <% } %>">
+      class="menu-item <% if (locals.title === 'All Users' || locals.title === 'View Users' || locals.title === 'Edit Course') { %> active <% } %>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-user"></i>
         <div data-i18n="Users">User</div>
@@ -44,18 +44,27 @@
             <div data-i18n="List">All Users</div>
           </a>
         </li>
-        <!-- <li class="menu-item">
-                      <a href="/admin/add-course" class="menu-link">
-                        <div data-i18n="Add New">Flex User</div>
-                      </a>
-                    </li>
-                    <li class="menu-item">
-                      <a href="/admin/add-course" class="menu-link">
-                        <div data-i18n="Add New">Dating User</div>
-                      </a>
-                    </li> -->
+      </ul>
+      </li>
+    <!-- Misc -->
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Posts</span>
+    </li>
+    <li
+      class="menu-item <% if (locals.title === 'All Post' || locals.title === 'Add Post' || locals.title === 'Edit Post') { %> active <% } %>">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-user"></i>
+        <div data-i18n="Posts">Posts</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="/admin/posts" class="menu-link">
+            <div data-i18n="List">List</div>
+          </a>
+        </li>
       </ul>
     </li>
+
 
     <!-- Misc -->
     <li class="menu-header small text-uppercase">
@@ -89,26 +98,26 @@
 
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Settings</span>
-      </li>
-      <li
-        class="menu-item <% if (locals.title === 'Settings' || locals.title === 'Add Student' || locals.title === 'Edit Student') { %> active <% } %>">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons bx bx-user"></i>
-          <div data-i18n="Settings">Settings</div>
-        </a>
-        <ul class="menu-sub">
-          <li class="menu-item">
-            <a href="/admin/profile" class="menu-link">
-              <div data-i18n="Profile">Profile</div>
-            </a>
-          </li>
-          <li class="menu-item">
+    </li>
+    <li
+      class="menu-item <% if (locals.title === 'Settings' || locals.title === 'My Profile' || locals.title === 'Update Password') { %> active <% } %>">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-user"></i>
+        <div data-i18n="Settings">Settings</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="/admin/profile" class="menu-link">
+            <div data-i18n="Profile">Profile</div>
+          </a>
+        </li>
+        <li class="menu-item">
           <a href="/admin/password" class="menu-link">
             <div data-i18n="Change Password">Change Password</div>
-            </a>
-            </li>
-            </ul>
-            </li>
+          </a>
+          </li>
+          </ul>
+          </li>
 
     <li class="menu-item mt-2">
       <a href="/logout" class="menu-link">

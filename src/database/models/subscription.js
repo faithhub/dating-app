@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
   Subscription.init(
     {
       name: DataTypes.STRING,
-      amount: DataTypes.INTEGER,
-      duration: DataTypes.INTEGER,
+      monthly: DataTypes.INTEGER,
+      annually: DataTypes.INTEGER,
       features: DataTypes.TEXT,
     },
     {

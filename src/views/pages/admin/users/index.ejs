@@ -79,7 +79,11 @@
                                 <%= sn++ %>
                               </td>
                               <td>
-                                <%= user.name || "---" %>
+                                <a href="/admin/user/<%= user.id %>">
+                                  <b>
+                                    <%= user.name || "---" %>
+                                  </b>
+                                </a>
                               </td>
                               <td>
                                 <%= user.email || "---" %>
