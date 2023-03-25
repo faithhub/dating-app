@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Image, { as: "image", foreignKey: "avatar" });
+      this.belongsTo(models.Subscription, { as: "sub", foreignKey: "sub_id" });
       // define association here
     }
   }
@@ -40,6 +41,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM,
         values: ["Flexing", "Dating"],
       },
+      sub_id: DataTypes.STRING,
+      subDuration: DataTypes.STRING,
+      subExpiredAt: DataTypes.TEXT,
+      isSubExpired: DataTypes.BOOLEAN,
+      trans_id: DataTypes.INTEGER,
       avatar: DataTypes.STRING,
       about: DataTypes.STRING,
       location: DataTypes.STRING,

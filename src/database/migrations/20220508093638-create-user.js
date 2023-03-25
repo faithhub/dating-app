@@ -72,6 +72,18 @@ module.exports = {
       currentRegPage: {
         type: Sequelize.INTEGER,
       },
+      sub_id: {
+        type: Sequelize.INTEGER,
+      },
+      subDuration: {
+        type: Sequelize.STRING,
+      },
+      trans_id: {
+        type: Sequelize.INTEGER,
+      },
+      subExpiredAt: {
+        type: Sequelize.TEXT,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

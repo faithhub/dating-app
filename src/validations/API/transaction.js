@@ -6,6 +6,11 @@ exports.createTrans = [
     .not()
     .isEmpty()
     .withMessage("Subscription ID is required!"),
+  check("duration")
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage("Sub duration is required!"),
   check("message")
     .trim()
     .not()

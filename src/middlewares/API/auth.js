@@ -31,6 +31,23 @@ module.exports = async function api(req, res, next) {
     }
 
     req.user = verifyToken;
+    console.log(new Date(), new Date(user.subExpiredAt));
+    if (new Date() > new Date(user.subExpiredAt)) {
+      await User.update(
+        {
+          sub_id: null,
+          subDuration: null,
+          subExpiredAt: null,
+          isSubExpired: true,
+        },
+        {
+          where: {
+            id: user.id,
+          },
+        }
+      );
+    }
+
     return next();
   } catch (e) {
     return res.status(401).json({

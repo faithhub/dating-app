@@ -4,6 +4,7 @@ const {
   User,
   Like,
   Friend,
+  Subscription,
   UserLikes,
 } = require("../../database/models");
 const Sequelize = require("sequelize");
@@ -42,6 +43,11 @@ async function allPosts(req, res) {
             "plan_id",
           ],
           include: [
+            {
+              model: Subscription,
+              as: "sub",
+              attributes: ["name"],
+            },
             {
               model: Image,
               as: "image",

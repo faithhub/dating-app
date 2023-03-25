@@ -1,4 +1,5 @@
 const { User, Subscription, Transaction } = require("../../database/models");
+const moment = require("moment");
 
 async function allSubs(req, res) {
   try {
@@ -32,18 +33,65 @@ async function allSubs(req, res) {
 async function saveTransaction(req, res) {
   try {
     const params = req.body;
-    const subs = await Subscription.findOne({ where: { id: params.subId } });
+    const { duration, subId } = req.body;
+    const sub = await Subscription.findOne({ where: { id: subId } });
 
-    if (!subs) {
+    if (!sub) {
       return res.status(400).json({
-        message: "No Subscription found for this subId",
+        message: `No Subscription found for this subId ${subId}`,
       });
     }
+
+    let subExpiredAt = null;
+    let startDate = new Date();
+
+    const user = await User.findOne({
+      where: {
+        id: req.user.id,
+      },
+    });
+
+    if (user.isSubExpired) {
+      startDate = new Date();
+    } else {
+      if (user.subExpiredAt != null) {
+        startDate = new Date(user.subExpiredAt);
+      } else {
+        startDate = new Date();
+      }
+    }
+
     params.userId = req.user.id;
-    params.planId = subs.id;
-    params.amount = subs.amount;
+    params.planId = sub.id;
+    params.amount = sub.amount;
+
+    if (duration == "monthly") {
+      endDate = moment(startDate).add(1, "Months").format("YYYY-MM-DD");
+      subExpiredAt = new Date(endDate);
+    }
+
+    if (duration == "annually") {
+      endDate = moment(startDate).add(12, "Months").format("YYYY-MM-DD");
+      subExpiredAt = new Date(endDate);
+    }
+
+    console.log(subExpiredAt);
 
     const save = await Transaction.create(params);
+
+    await User.update(
+      {
+        sub_id: sub.id,
+        trans_id: save.id,
+        subDuration: duration,
+        subExpiredAt: subExpiredAt.toJSON(),
+      },
+      {
+        where: {
+          id: req.user.id,
+        },
+      }
+    );
 
     if (!save) {
       return res.status(400).json({
