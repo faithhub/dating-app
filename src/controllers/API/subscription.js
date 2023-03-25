@@ -84,6 +84,7 @@ async function saveTransaction(req, res) {
         sub_id: sub.id,
         trans_id: save.id,
         subDuration: duration,
+        isSubExpired: false,
         subExpiredAt: subExpiredAt.toJSON(),
       },
       {
