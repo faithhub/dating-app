@@ -46,6 +46,18 @@ module.exports = async function api(req, res, next) {
           },
         }
       );
+    }else{
+      await User.update(
+        {
+          isSubExpired: false,
+        },
+        {
+          where: {
+            id: user.id,
+          },
+        }
+      );
+
     }
 
     return next();
