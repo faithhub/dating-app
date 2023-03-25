@@ -13,6 +13,10 @@ async function profile(req, res) {
       },
       include: [
         {
+          model: Subscription,
+          as: "sub",
+        },
+        {
           model: Image,
           as: "image",
         },
@@ -89,6 +93,10 @@ async function updateProfile(req, res) {
         exclude: ["password"],
       },
       include: [
+        {
+          model: Subscription,
+          as: "sub",
+        },
         {
           model: Image,
           as: "image",
