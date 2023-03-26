@@ -11,6 +11,7 @@ exports.createTrans = [
     .not()
     .isEmpty()
     .withMessage("Sub duration is required!"),
+  check("amount").not().isEmpty().withMessage("Sub amount is required!"),
   check("message")
     .trim()
     .not()

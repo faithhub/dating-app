@@ -1,4 +1,10 @@
-const { User, Like, Image, Subscription } = require("../../database/models");
+const {
+  User,
+  Like,
+  Image,
+  Subscription,
+  Transaction,
+} = require("../../database/models");
 
 async function profile(req, res) {
   try {
@@ -15,6 +21,11 @@ async function profile(req, res) {
         {
           model: Subscription,
           as: "sub",
+        },
+        {
+          model: Transaction,
+          as: "subTransaction",
+          attributes: ["amount"],
         },
         {
           model: Image,

@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.Image, { as: "image", foreignKey: "avatar" });
       this.belongsTo(models.Subscription, { as: "sub", foreignKey: "sub_id" });
+      this.belongsTo(models.Transaction, {
+        as: "subTransaction",
+        foreignKey: "trans_id",
+      });
       // define association here
     }
   }

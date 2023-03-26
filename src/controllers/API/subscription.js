@@ -63,7 +63,6 @@ async function saveTransaction(req, res) {
 
     params.userId = req.user.id;
     params.planId = sub.id;
-    params.amount = sub.amount;
 
     if (duration == "monthly") {
       endDate = moment(startDate).add(1, "Months").format("YYYY-MM-DD");
@@ -75,7 +74,7 @@ async function saveTransaction(req, res) {
       subExpiredAt = new Date(endDate);
     }
 
-    console.log(subExpiredAt);
+    console.log(params);
 
     const save = await Transaction.create(params);
 
