@@ -3,11 +3,9 @@ const adminMiddleware = require("../middlewares/admin.middleware");
 const authMiddleware = require("../middlewares/auth.middleware");
 const adminValidation = require("../validations/main.validation");
 const dashboardController = require("../controllers/Admin/dashboard.controller");
-const lecturerController = require("../controllers/Admin/lecturer.controller");
 const courseController = require("../controllers/Admin/course.controller");
 const userController = require("../controllers/Admin/userController");
 const subscriptionController = require("../controllers/Admin/subscriptionController");
-const studentController = require("../controllers/Admin/student.controller");
 const workController = require("../controllers/Admin/file.controller");
 const postController = require("../controllers/Admin/postController");
 const { createSub } = require("../validations/sub.validation");
@@ -60,7 +58,6 @@ router.get("/posts", authMiddleware.auth, postController.index);
 
 router.get("/post/:id", authMiddleware.auth, postController.view);
 
-
 router.get("/courses", authMiddleware.auth, courseController.index);
 
 router.get("/add-course", authMiddleware.auth, courseController.create);
@@ -85,65 +82,6 @@ router.post(
   courseController.edit
 );
 
-router.get("/lecturers", authMiddleware.auth, lecturerController.index);
-
-router.get("/add-lecturer", authMiddleware.auth, lecturerController.create);
-
-router.get("/edit/lecturer/:id", authMiddleware.auth, lecturerController.edit);
-
-router.get(
-  "/delete/lecturer/:id",
-  authMiddleware.auth,
-  lecturerController.delete
-);
-
-router.post(
-  "/add-lecturer",
-  authMiddleware.auth,
-  adminValidation("createLecturer"),
-  adminMiddleware.createLecturer,
-  lecturerController.create
-);
-
-router.post(
-  "/edit/lecturer",
-  authMiddleware.auth,
-  adminValidation("updateLecturer"),
-  adminMiddleware.updateLecturer,
-  lecturerController.edit
-);
-
-router.post(
-  "/add-student",
-  authMiddleware.auth,
-  adminValidation("createStudent"),
-  adminMiddleware.createStudent,
-  studentController.create
-);
-
-router.get("/add-student", authMiddleware.auth, studentController.create);
-
-router.get("/students", authMiddleware.auth, studentController.index);
-
-router.get(
-  "/delete/student/:id",
-  authMiddleware.auth,
-  studentController.delete
-);
-router.get(
-  "/edit/student/:id",
-  authMiddleware.auth,
-  adminMiddleware.checkUser,
-  studentController.edit
-);
-
-router.post(
-  "/edit/student",
-  authMiddleware.auth,
-  adminValidation("updateStudent"),
-  adminMiddleware.updateStudent,
-  studentController.edit
-);
 
 router.get("/profile", authMiddleware.auth, dashboardController.profile);
 
